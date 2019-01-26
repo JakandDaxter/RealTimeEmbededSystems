@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\timer_histogram.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\timer_histogram.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Jan 26 02:48:52 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Jan 26 04:14:02 2019
 <BR><P>
 <H3>Maximum Stack Usage =        120 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -702,7 +702,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[7f]"></a>USART_Delay</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart.o(i.USART_Delay))
+<P><STRONG><a name="[7f]"></a>USART_Delay</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, uart.o(i.USART_Delay))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
 </UL>
 
@@ -710,15 +710,15 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART2_Init
 </UL>
 
-<P><STRONG><a name="[7e]"></a>USART_Write</STRONG> (Thumb, 64 bytes, Stack size 20 bytes, uart.o(i.USART_Write))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = USART_Write
+<P><STRONG><a name="[7e]"></a>USART_Write</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, uart.o(i.USART_Write))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = USART_Write
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6d]"></a>main</STRONG> (Thumb, 186 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[6d]"></a>main</STRONG> (Thumb, 176 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120 + Unknown Stack Size
 <LI>Call Chain = main &rArr; __2sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>

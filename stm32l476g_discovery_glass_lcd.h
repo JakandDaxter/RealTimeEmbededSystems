@@ -44,7 +44,8 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l476g_discovery.h"
+#include "stm32l476g_discovery_glass_lcd.h"
+#include "stm32l476xx.h"
 
 /** @addtogroup BSP
   * @{
@@ -511,7 +512,7 @@ typedef enum
   */
 void BSP_LCD_GLASS_Init(void);
 void BSP_LCD_GLASS_DeInit(void);
-void BSP_LCD_GLASS_BlinkConfig(uint32_t BlinkMode, uint32_t BlinkFrequency);
+void BSP_LCD_GLASS_BlinkConfig(uint8_t BlinkMode, uint8_t BlinkFrequency);
 void BSP_LCD_GLASS_Contrast(uint32_t Contrast);
 void BSP_LCD_GLASS_DisplayChar(uint8_t* ch, Point_Typedef Point, DoublePoint_Typedef Column, DigitPosition_Typedef Position);
 void BSP_LCD_GLASS_DisplayString(uint8_t* ptr);

@@ -38,6 +38,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l476g_discovery_glass_lcd.h"
+#include "stm32l476xx.h"
 
 /** @addtogroup BSP
   * @{

@@ -1,10 +1,12 @@
 #include <string.h>
 #include <stdio.h>
 
+
 #include "stm32l476xx.h"
 #include "SysClock.h"
 #include "LED.h"
 #include "UART.h"
+
 
 
 char RxComByte = 0;
@@ -74,7 +76,7 @@ int main(void)
 		//count = TIM4->CNT;
 		n = sprintf((char *)buffer, "count = %d\t", TIM1->CNT);
 		USART_Write(USART2, buffer, n); 
-		//USART_Write(USART2, (uint8_t *)str, strlen(str));	
+		USART_Write(USART2, (uint8_t *)str, strlen(str));	
 		
 		//Read GPIO input and then test for rising edge	
 		//time the rising edge 100ms is the max count for the timer 
