@@ -28,14 +28,22 @@ int main(void)
 	
 	GPIOB->OTYPER &= ~(1<<6);
 	
-	RCC->AHB1ENR |= RCC_APB1ENR1_TIM4EN; //enable clock of timer 2
-	TIM4->PSC = 2097000/1000 -1;		//timer frequency of 1000Hz
+	//RCC->AHB1ENR |= RCC_APB1ENR1_TIM4EN; //enable clock of timer 4
+	//RCC->AHB1ENR |= 0x02; //enable clock of timer 4
+//*********************Testing Timer 1***************************//
+  RCC->AHB2ENR |= RCC_APB2ENR_TIM1EN;
+		TIM1->CR1 |= TIM_CR1_CEN;
+		TIM1->PSC = 10000;
+
+//***************************************************************//	
+	//TIM4->PSC = 2097000/1000 -1;		//timer frequency of 1000Hz
+	//TIM4->PSC = 10000;
 	
-	TIM4->ARR 	= 1000;		//Auto-reload value
-	TIM4->CCR1 	= 500;		//Compare and output register
+	//TIM4->ARR 	= 1000;		//Auto-reload value
+	//TIM4->CCR1 	= 500;		//Compare and output register
 	
 	//Set OC1M of channel 1 to 011: OC1REF toggles when CNT matches CCR1
-	TIM4->CCMR1 = TIM_CCMR1_OC1M_0 | TIM_CCMR1_OC1M_1;
+	//TIM4->CCMR1 = TIM_CCMR1_OC1M_0 | TIM_CCMR1_OC1M_1;
 	
 	//IC1PSC bits (input capture 1 prescaler)
 	//TIM4->CCMR1 &= ~TIM_CCER_CC1E;
@@ -44,9 +52,10 @@ int main(void)
 	//TIM4->DIER	|= TIM_DIER_CC1IE;
 	
 	//Enaable compare output
-	TIM4->CCER = TIM_CCER_CC1E;
+	//TIM4->CCER = TIM_CCER_CC1E;
+	
 	//Enable the counter
-	TIM4->CR1 |= TIM_CR1_CEN;
+	//TIM4->CR1 |= TIM_CR1_CEN;
 	
 	//Set priority to 1
 	//NVIC_SetPriority(TIM4_IRQn, 1);
@@ -62,10 +71,10 @@ int main(void)
 	
 	while(1)
 	{
-		count = TIM4->CNT;
-		n = sprintf((char *)buffer, "count = %d\t", count);
-		USART_Write(USART2, (uint8_t *)str, strlen(str));	
-		USART_Write(USART2, buffer, n);  
+		//count = TIM4->CNT;
+		n = sprintf((char *)buffer, "count = %d\t", TIM1->CNT);
+		USART_Write(USART2, buffer, n); 
+		//USART_Write(USART2, (uint8_t *)str, strlen(str));	
 		
 		//Read GPIO input and then test for rising edge	
 		//time the rising edge 100ms is the max count for the timer 
