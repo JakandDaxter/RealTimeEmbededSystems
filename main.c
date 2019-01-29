@@ -4,8 +4,11 @@
 #include "stm32l476xx.h"
 #include "SysClock.h"
 #include "UART.h"
+#include "LED.h"
 
 uint8_t buffer[BufferSize];
+uint32_t timeStamp[2];
+uint8_t i = 0;
 
 void Init_GPIO(void)
 {
@@ -37,8 +40,13 @@ void Init_Timer2(void)
 	
 	//TIM2->CCMR1 |= TIM_CCMR1_OC1M_0 | TIM_CCMR1_OC1M_1; //Timer 2 OC1M=011 -> Toggle on compare
 	TIM2->CCMR1 &= ~(TIM_CCMR1_OC1PE | 3U | (1U<<2) | (1U<<3)); //Timer 2 No preload no fast enable
+	TIM2->CCMR1 |= TIM_CCMR1_CC1S_0;
+	TIM2->CCMR1 &= ~(TIM_CCER_CC1NP); // Clears the two bits
+	TIM2->CCMR1 &= ~(TIM_CCER_CC1P); // making it rising edge detector
+	TIM2->DIER  |= TIM_DIER_CC1IE; //enables interrupts
 	TIM2->CCER |= TIM_CCER_CC1E;
 	TIM2->EGR = TIM_EGR_UG;
+	NVIC_EnableIRQ(TIM2_IRQn); //enable the interrupt
 	//and channel 1 is an output
 }
 
@@ -49,17 +57,21 @@ void Start_Timer2()
 
 int main(void)
 {
+	__disable_irq();
 	System_Clock_Init();
 	Init_GPIO();
+	LED_Init();
 	Init_Timer2();
 	UART2_Init();
+	__enable_irq();
 	Start_Timer2();
+
 	
 	int n;
 	while(1)
 	{
 		
-		n = sprintf((char *)buffer, "a = %d\t", TIM2->CNT);
+		n = sprintf((char *)buffer, "a = %d\t", timeStamp[0]);
 		USART_Write(USART2, buffer, n);		
 		// now spin for a while to slow it down
 		//for (uint32_t i = 0; i < 4000000; i++)
@@ -67,4 +79,14 @@ int main(void)
 	}
 }
 
+void TIM2_IRQHandler  (void) 
+{ 
+	if((TIM2->SR & TIM_SR_CC1IF) == TIM_SR_CC1IF)
+	{
+		Green_LED_Toggle();
+		timeStamp[i] = TIM2->CCR1;
+		i ^= 1;
+	}
+	TIM2->SR &= ~(TIM_SR_CC1IF);
+}
 
