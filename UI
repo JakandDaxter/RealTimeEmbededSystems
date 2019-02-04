@@ -1,0 +1,51 @@
+#ifndef __Console_Display_H
+#define __Console_Display_H
+
+#include "stm32l476xx.h"
+uint8_t buffer[BufferSize];
+
+	char Edit;
+	int bottom,top;
+	int h;
+	uint32_t Topbound;
+
+	printf(" The Upper and Lower Limits of the Array in microseconds Are....\n");
+	//printf(array);
+	printf("Do you accept these settings or Do you want to change them?\n");
+	printf("Y: to accept the settings, N: to change the settings\n");
+	printf("Enter Y or N:");
+	scanf("%s" , Edit, &h )
+	delay(500);
+	printf(".\n\r");
+	delay(500);
+	printf(".\n\r");
+	delay(500);
+	printf(".\n\r");
+	delay(500);
+	 
+	if(Edit == "Y") {
+		printf("What Bounds would you like?\n");
+		printf("\n\r");
+		printf("Your top bound will be 100 microseconds longer than the bottom bound you entered\n");
+		printf("\n\r");
+		printf("You must enter a value between 50 and 9950 microseconds.....");
+		printf("Bottom Bound:")
+		bottom = getchar();
+		printf("\n\r");
+		printf("\n\r");
+		Topbound = bottom + //(100ms)  
+		printf("Your Top Bound Is Now:");
+		printf("Top Bound:")
+		top = getchar();
+		printf("\n");
+	}
+
+		else {
+			
+			
+		}
+	
+	
+
+
+#endif /*__Console_Display_H*/ 
