@@ -11,3 +11,5 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h
 .\objects\main.o: SysClock.h
 .\objects\main.o: UART.h
+.\objects\main.o: LED.h
+.\objects\main.o: Timer_2_Input_Capture.h

@@ -421,6 +421,21 @@
               <FileType>5</FileType>
               <FilePath>.\SysClock.h</FilePath>
             </File>
+            <File>
+              <FileName>Timer_2_Input_Capture.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Timer_2_Input_Capture.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_2_Input_Capture.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Timer_2_Input_Capture.h</FilePath>
+            </File>
+            <File>
+              <FileName>UserInterface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UserInterface.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

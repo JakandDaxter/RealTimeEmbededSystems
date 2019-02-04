@@ -5,55 +5,10 @@
 #include "SysClock.h"
 #include "UART.h"
 #include "LED.h"
+#include "Timer_2_Input_Capture.h"
 
 uint8_t buffer[BufferSize];
-uint32_t timeStamp[2];
-uint8_t i = 0;
-
-void Init_GPIO(void)
-{
-	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN; //enable periph clock for GPIO Port A
-	
-	GPIOA->MODER &= ~3U; //clear PA0
-	GPIOA->MODER |= 2U; //set PA0 to AF
-	
-	GPIOA->AFR[0] &= ~(15U); //clear PA0 alternate function register
-	GPIOA->AFR[0] |= (1U); //set PA0 to AF1 - Timer 2 Ch1 output
-}
-
-void Init_Timer2(void)
-{
-	//1. Select the counter clock (internal, external, prescaler).
-	//2. Write the desired data in the TIMx_ARR and TIMx_CCRx registers.
-	//3. Set the CCxIE and/or CCxDE bits if an interrupt and/or a DMA request is to be
-	//generated.
-	//4. Select the output mode. For example, you must write OCxM=011, OCxPE=0, CCxP=0
-	//and CCxE=1 to toggle OCx output pin when CNT matches CCRx, CCRx preload is not
-	//used, OCx is enabled and active high.
-	//5. Enable the counter by setting the CEN bit in the TIMx_CR1 register.
-	
-	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN; //Enable clock for Timer 2
-	
-	TIM2->CCER &= ~(TIM_CCER_CC1E);
-	TIM2->ARR = 40000U; //Timer 2 auto reload register
-	TIM2->CCR1 = 20000U; //Timer 2 capture compare 
-	
-	//TIM2->CCMR1 |= TIM_CCMR1_OC1M_0 | TIM_CCMR1_OC1M_1; //Timer 2 OC1M=011 -> Toggle on compare
-	TIM2->CCMR1 &= ~(TIM_CCMR1_OC1PE | 3U | (1U<<2) | (1U<<3)); //Timer 2 No preload no fast enable
-	TIM2->CCMR1 |= TIM_CCMR1_CC1S_0;
-	TIM2->CCMR1 &= ~(TIM_CCER_CC1NP); // Clears the two bits
-	TIM2->CCMR1 &= ~(TIM_CCER_CC1P); // making it rising edge detector
-	TIM2->DIER  |= TIM_DIER_CC1IE; //enables interrupts
-	TIM2->CCER |= TIM_CCER_CC1E;
-	TIM2->EGR = TIM_EGR_UG;
-	NVIC_EnableIRQ(TIM2_IRQn); //enable the interrupt
-	//and channel 1 is an output
-}
-
-void Start_Timer2()
-{
-	TIM2->CR1 |= TIM_CR1_CEN;
-}
+int j = 0;
 
 int main(void)
 {
@@ -61,7 +16,7 @@ int main(void)
 	System_Clock_Init();
 	Init_GPIO();
 	LED_Init();
-	Init_Timer2();
+	Init_Timer2(8000000U);
 	UART2_Init();
 	__enable_irq();
 	Start_Timer2();
@@ -70,23 +25,19 @@ int main(void)
 	int n;
 	while(1)
 	{
-		
-		n = sprintf((char *)buffer, "a = %d\t", timeStamp[0]);
-		USART_Write(USART2, buffer, n);		
-		// now spin for a while to slow it down
-		//for (uint32_t i = 0; i < 4000000; i++)
-			//;
+		//j++;
+		//if(j == 0x07A1200U)
+		//{
+			//Red_LED_On();
+		//}
+		if(get_delta_time(999) > 0)
+		{
+			n = sprintf((char *)buffer, "a = %d\t", get_delta_time(999));
+			USART_Write(USART2, buffer, n);
+			Green_LED_On();
+			break;
+		}
+		//n = sprintf((char *)buffer, "b = %d\n\r", timeStamp[1]);
+		//USART_Write(USART2, buffer, n);
 	}
 }
-
-void TIM2_IRQHandler  (void) 
-{ 
-	if((TIM2->SR & TIM_SR_CC1IF) == TIM_SR_CC1IF)
-	{
-		Green_LED_Toggle();
-		timeStamp[i] = TIM2->CCR1;
-		i ^= 1;
-	}
-	TIM2->SR &= ~(TIM_SR_CC1IF);
-}
-
