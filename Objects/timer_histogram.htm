@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\timer_histogram.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\timer_histogram.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Feb 06 15:35:31 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Feb 06 17:10:12 2019
 <BR><P>
 <H3>Maximum Stack Usage =         52 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -28,7 +28,7 @@ Mutually Recursive functions
  <LI><a href="#[a]">PendSV_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[a]">PendSV_Handler</a><BR>
  <LI><a href="#[b]">SysTick_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b]">SysTick_Handler</a><BR>
  <LI><a href="#[1e]">ADC1_2_IRQHandler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1e]">ADC1_2_IRQHandler</a><BR>
- <LI><a href="#[79]">POSTFAIL</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[75]">POST</a><BR>
+ <LI><a href="#[78]">POSTFAIL</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[75]">POST</a><BR>
 </UL>
 <P>
 <H3>
@@ -580,10 +580,10 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[7a]"></a>strlen</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, strlen.o(.text))
+<P><STRONG><a name="[79]"></a>strlen</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, strlen.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = strlen
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
+<BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
 </UL>
 
 <P><STRONG><a name="[a6]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
@@ -646,28 +646,32 @@ Global Symbols
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[75]"></a>POST</STRONG> (Thumb, 82 bytes, Stack size 8 bytes, console_display.o(i.POST))
+<P><STRONG><a name="[75]"></a>POST</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, console_display.o(i.POST))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = POST &rArr; POSTFAIL &rArr;  POST (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_delta_time
+<BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start_Timer2
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
+<BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[79]"></a>POSTFAIL</STRONG> (Thumb, 108 bytes, Stack size 16 bytes, console_display.o(i.POSTFAIL))
+<P><STRONG><a name="[78]"></a>POSTFAIL</STRONG> (Thumb, 118 bytes, Stack size 16 bytes, console_display.o(i.POSTFAIL))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36 + In Cycle
 <LI>Call Chain = POSTFAIL &rArr;  POST (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Read
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Read
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POST
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Red_LED_Off
 </UL>
 <BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POST
+</UL>
+
+<P><STRONG><a name="[7b]"></a>Red_LED_Off</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, led.o(i.Red_LED_Off))
+<BR><BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
 </UL>
 
 <P><STRONG><a name="[7d]"></a>Red_LED_On</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, led.o(i.Red_LED_On))
@@ -682,7 +686,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[28]"></a>TIM2_IRQHandler</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, timer_2_input_capture.o(i.TIM2_IRQHandler))
+<P><STRONG><a name="[28]"></a>TIM2_IRQHandler</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, timer_2_input_capture.o(i.TIM2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = TIM2_IRQHandler &rArr; timeUpdate
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timeUpdate
@@ -704,31 +708,27 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[81]"></a>USART_Delay</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart.o(i.USART_Delay))
-<BR><BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
+<BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
 </UL>
 
 <P><STRONG><a name="[80]"></a>USART_Init</STRONG> (Thumb, 168 bytes, Stack size 0 bytes, uart.o(i.USART_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART2_Init
 </UL>
 
-<P><STRONG><a name="[7b]"></a>USART_Read</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart.o(i.USART_Read))
-<BR><BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
+<P><STRONG><a name="[7a]"></a>USART_Read</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart.o(i.USART_Read))
+<BR><BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
 </UL>
 
-<P><STRONG><a name="[78]"></a>USART_Write</STRONG> (Thumb, 64 bytes, Stack size 20 bytes, uart.o(i.USART_Write))
+<P><STRONG><a name="[77]"></a>USART_Write</STRONG> (Thumb, 64 bytes, Stack size 20 bytes, uart.o(i.USART_Write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = USART_Write
 </UL>
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Delay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
+<BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POSTFAIL
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POST
 </UL>
 
-<P><STRONG><a name="[77]"></a>get_delta_time</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, timer_2_input_capture.o(i.get_delta_time))
-<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;POST
-</UL>
-
-<P><STRONG><a name="[6a]"></a>main</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[6a]"></a>main</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = main &rArr; POST &rArr; POSTFAIL &rArr;  POST (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART2_Init

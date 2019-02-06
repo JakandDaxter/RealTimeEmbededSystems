@@ -20,5 +20,5 @@ int main(void)
 	Init_Timer2(8000000U);
 	UART2_Init();
 	__enable_irq();
-	POST();
+	while(1){if(POST()==0)break;}
 }

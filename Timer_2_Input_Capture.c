@@ -9,6 +9,7 @@
 
 uint32_t delta_time[ARRAY_SIZE];
 static int i = 0;
+int POST_FLAG = 0;
 
 struct time_stamp
 {
@@ -42,6 +43,7 @@ void TIM2_IRQHandler  (void)
 	if((TIM2->SR & TIM_SR_CC1IF) == TIM_SR_CC1IF)
 	{
 		time = timeUpdate(time);
+		POST_FLAG = 1;
 	}
 	else if((TIM2->SR & TIM_SR_UIF) == TIM_SR_UIF)
 	{
@@ -49,6 +51,7 @@ void TIM2_IRQHandler  (void)
 		TIM2->CR1 &= ~(TIM_CR1_CEN); //Turn off timer 2
 	}
 	TIM2->SR &= ~(TIM_SR_CC1IF | TIM_SR_UIF);
+	POST_FLAG = -1;
 }
 
 void Init_GPIO(void)

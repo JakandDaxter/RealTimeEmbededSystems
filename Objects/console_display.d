@@ -11,3 +11,4 @@
 .\objects\console_display.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\console_display.o: UART.h
 .\objects\console_display.o: Timer_2_Input_Capture.h
+.\objects\console_display.o: LED.h
