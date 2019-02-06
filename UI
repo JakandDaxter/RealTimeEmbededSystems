@@ -2,48 +2,92 @@
 #define __Console_Display_H
 
 #include "stm32l476xx.h"
+#define sample 1001
+
 uint8_t buffer[BufferSize];
+uint8_t bounds[BufferSize];
+uint8_t nbounds[BufferSize];
+char boundBuff[5]; //because the number they input can not be more than 5 digits
 
-	char Edit;
-	int bottom,top;
-	int h;
-	uint32_t Topbound;
+char FaileMessage [] = " !!The Post has failed due to no pulse seen in 100ms!!\r\n";
+char reruntheprogram [] = " Would You Like To Rerun the Program? (Y or N):\r\n";
+char originalbounds [] = "!! You are currently using the default bounds of ** 950 microseconds & 1050 microseconds ** !!\r\n";
+char changebounds [] = "Would you like to change the bounds? (Y or N) \r\n";
+int lowestboundary = 950; //default value for the lowest boundary
+int highestboundary = 1050; //default value for the higest boundary
 
-	printf(" The Upper and Lower Limits of the Array in microseconds Are....\n");
-	//printf(array);
-	printf("Do you accept these settings or Do you want to change them?\n");
-	printf("Y: to accept the settings, N: to change the settings\n");
-	printf("Enter Y or N:");
-	scanf("%s" , Edit, &h )
-	delay(500);
-	printf(".\n\r");
-	delay(500);
-	printf(".\n\r");
-	delay(500);
-	printf(".\n\r");
-	delay(500);
-	 
-	if(Edit == "Y") {
-		printf("What Bounds would you like?\n");
-		printf("\n\r");
-		printf("Your top bound will be 100 microseconds longer than the bottom bound you entered\n");
-		printf("\n\r");
-		printf("You must enter a value between 50 and 9950 microseconds.....");
-		printf("Bottom Bound:")
-		bottom = getchar();
-		printf("\n\r");
-		printf("\n\r");
-		Topbound = bottom + //(100ms)  
-		printf("Your Top Bound Is Now:");
-		printf("Top Bound:")
-		top = getchar();
-		printf("\n");
+// This is the POST console function. Prints to the console to let the user know the post test failed
+// lets the user rerun the post test if need be
+
+int POSTFAIL(void){
+	char UserInput;
+	USART_Write(USART2,(uin8_t *)FaileMessage, strlen(FaileMessage));
+	USART_Write(USART2,(uin8_t *)reruntheprogram, strlen(reruntheprogram));
+	UserInput = USART_Read(USART2);
+	if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
+		USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\r\n", 14);
+		return (0); //offcially exit the program
 	}
+	else if(UserInput == 'Y' || UserInput == 'y'){// User wants to rerun the program
+		USART_Write(USART2, (uint8_t *)"Rerunning the POST test......\r\n\r\n", 20);
+		return POST();
+	}
+	else{//this is the case if the user inputted an invalied answer
+		USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\r\n", 22);
+		return FAIL();
+	}
+}
 
-		else {
-			
-			
+//This is the post function that will tell the user if the test failed or succeded 
+int POST(void){
+	//initilize the timer
+	Init_Timer2(); 
+	//start the timer
+	Start_Timer2(); 
+	//start of the test time 
+	while(1){
+		if (get_delta_time (999) > 0) {//the edge has been sucessfully seen
+			USART_Write(USART,(uint8_t *)"POST test Passed!! Moving onto next Program.......\r\n\r\n\n",20);
+			TIM2->CR1 &= ~(TIM_CR1_CEN); //Turn off timer 2 //somehow make this a fcuntion
+			return 1;
 		}
+		else{// failed the timing requirements, edge was not seen in the time
+			USART_Write(USART, (uint8_t *)"!!POST HAS FAILED!!\r\n\r\n",17);
+			TIM2->CR1 &= ~(TIM_CR1_CEN); //Turn off timer 2 //somehow make this a fcuntion
+			return POSTFAIL();
+		}
+	}
+}	
+//***************************************************************************************************//
+
+//this is for when the user wants ot edit the bounds	
+void reruns(void){
+int h;
+char UserInput;
+int x;
+int  	
+}
+//***************************************************************************************************//	
+//this is a functions that goes through the array of the times and sorts them from lowest to greatest
+
+void SORTER(int array[]){
+	int i;
+	int j;
+	int swapy;
+	
+	for(i = 0 ; i< (sample - 1); i++)
+	{
+		for(j = 0; j < sample - i - 1; j++)
+		{
+			if (array[j] > array[j+1])
+			{
+				swapy	= array[j];
+				array[j]	=array[j+1];
+				array[j+1] =swapy;
+			}
+		}
+	}
+}
 	
 	
 
