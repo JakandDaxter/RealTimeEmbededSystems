@@ -10,7 +10,7 @@
 uint32_t delta_time[ARRAY_SIZE];
 static int i = 0;
 int POST_FLAG = 0;
-
+//
 struct time_stamp
 {
 	uint32_t stamp[2];
@@ -19,6 +19,7 @@ struct time_stamp
 
 struct time_stamp time;
 
+//that is a function in what is does is that, once it gets tow time stamps, does this math and then stores it into delta time
 struct time_stamp timeUpdate(struct time_stamp now)
 {
 	now.stamp[now.i] = TIM2->CCR1;
@@ -31,13 +32,13 @@ struct time_stamp timeUpdate(struct time_stamp now)
 	now.i ^= 1;
 	return now;
 }
-
+//returns time at that index
 uint32_t get_delta_time(int i)
 {
 	return delta_time[i];
 }
 
-
+//that checks if you get a capture or an input capture or an overflow and depending on which one it is, it either turns on the red LED for the over flow or it time stamps
 void TIM2_IRQHandler  (void) 
 { 
 	if((TIM2->SR & TIM_SR_CC1IF) == TIM_SR_CC1IF)
@@ -53,7 +54,7 @@ void TIM2_IRQHandler  (void)
 	TIM2->SR &= ~(TIM_SR_CC1IF | TIM_SR_UIF);
 	POST_FLAG = -1;
 }
-
+//it steps PA0 as an alternate function and that alternate function is timer2 channel 1
 void Init_GPIO(void)
 {
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN; //enable periph clock for GPIO Port A
@@ -66,17 +67,18 @@ void Init_GPIO(void)
 	GPIOA->AFR[0] |= (1U); //set PA0 to AF1 - Timer 2 Ch1 output
 }
 
-/*
-Init_Timer2(uint32_t arr)
+//
+// Init_Timer2(uint32_t arr)
+//
+// Parameters:
+// 	arr -> value TIM2 will count up to before resetting to 0
+// 	TIM2CLK/ARR = Freq of TIM2
+//
+// Description:
+// Configures TIM2 for input capture on channel 1 -> PA0 on STM32 Discovery Board
+// Registers the ISR into NVIC and enables interrupt on capture
 
-Parameters:
-	arr -> value TIM2 will count up to before resetting to 0 
-	TIM2CLK/ARR = Freq of TIM2
-
-Description: 
-Configures TIM2 for input capture on channel 1 -> PA0 on STM32 Discovery Board
-Registers the ISR into NVIC and enables interrupt on capture
-*/
+//boom, intialized timer 2
 void Init_Timer2(uint32_t arr)
 {
 	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN; //Enable clock for Timer 2
@@ -97,6 +99,7 @@ void Init_Timer2(uint32_t arr)
 	NVIC_EnableIRQ(TIM2_IRQn); //enable the interrupt
 }
 
+//clears the struct then starts the timer
 void Start_Timer2(void)
 {
 	time.stamp[0] = 0;
@@ -105,7 +108,7 @@ void Start_Timer2(void)
 	TIM2->CNT = 0;
 	TIM2->CR1 |= TIM_CR1_CEN;
 }
-
+//stops the timer
 void Stop_Timer2(void)
 {
 	TIM2->CR1 &= ~TIM_CR1_CEN;
