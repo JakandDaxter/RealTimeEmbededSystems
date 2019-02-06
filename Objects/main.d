@@ -13,3 +13,4 @@
 .\objects\main.o: UART.h
 .\objects\main.o: LED.h
 .\objects\main.o: Timer_2_Input_Capture.h
+.\objects\main.o: Console_Display.h

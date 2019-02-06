@@ -8,7 +8,7 @@
 
 
 uint32_t delta_time[ARRAY_SIZE];
-int i = 0;
+static int i = 0;
 
 struct time_stamp
 {
@@ -94,11 +94,17 @@ void Init_Timer2(uint32_t arr)
 	NVIC_EnableIRQ(TIM2_IRQn); //enable the interrupt
 }
 
-void Start_Timer2()
+void Start_Timer2(void)
 {
 	time.stamp[0] = 0;
 	time.stamp[1] = 0;
 	time.i = 0;
+	TIM2->CNT = 0;
 	TIM2->CR1 |= TIM_CR1_CEN;
+}
+
+void Stop_Timer2(void)
+{
+	TIM2->CR1 &= ~TIM_CR1_CEN;
 }
 

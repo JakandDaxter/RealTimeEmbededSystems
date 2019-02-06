@@ -436,6 +436,16 @@
               <FileType>1</FileType>
               <FilePath>.\UserInterface.c</FilePath>
             </File>
+            <File>
+              <FileName>Console_Display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Console_Display.c</FilePath>
+            </File>
+            <File>
+              <FileName>Console_Display.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Console_Display.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
