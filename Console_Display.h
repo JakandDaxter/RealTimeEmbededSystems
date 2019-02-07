@@ -9,7 +9,11 @@
 int POSTFAIL(void);
 int POST(void);
 int reruns(void);
-void SORTER(int array[]);
+//void SORTER(int array[]);
 int WELCOMEMESSAGE(void);
+int editorORrunner(void);
+void quicksort(int number[25],int first,int last);
+int rerunFunc( void );
+void histogram( void );
 
 #endif /*__Console_Display_H*/ 

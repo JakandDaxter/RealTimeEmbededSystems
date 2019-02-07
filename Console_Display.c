@@ -189,15 +189,15 @@ int rerunFunc( void ){
     char UserInput;
     USART_Write(USART2, (uint8_t *)reruntheprogram, strlen(reruntheprogram));
     UserInput = USART_Read(USART2);
-    if (UserInput == 'N' || UserInput == 'n'){ // User wants to quit
+    if (UserInput == 'N' || UserInput == 'n'){ //end program
         USART_Write(USART2, (uint8_t *)"Exitting\r\n\r\n", 14);
         return 0;
     }
-    else if (UserInput == 'Y' || UserInput == 'y'){ // User wants to rerun
+    else if (UserInput == 'Y' || UserInput == 'y'){ // rerun program
         USART_Write(USART2, (uint8_t *)"Rerunning Program\r\n\r\n", 23);
         return 1;
     }
-    else { // User entered neither 'Y'/'y' or 'N'/'n'
+    else { // they dont know what they doing
         USART_Write(USART2, (uint8_t *)"Invalid Response\r\n\r\n", 22);
         return rerunFunc();
     }
