@@ -5,7 +5,7 @@
 uint8_t buffer[BufferSize];
 uint8_t bounds[BufferSize];
 uint8_t nbounds[BufferSize];
-char boundBuff[5]; //because the number they input can not be more than 5 digits
+char boundBuff[4]; //because the number they input can not be more than 5 digits
 
 char FaileMessage [] = " !!The Post has failed due to no pulse seen in 100ms!!\r\n\r\n\r\n\n\n";
 char reruntheprogram [] = " Would You Like To Rerun the Program? (Y or N):\r\n\r\n\r\n\n\n";
@@ -71,20 +71,19 @@ int WELCOMEMESSAGE(void)
 	UserInput = USART_Read(USART2); //read whatever they input
 	if(STARTPRG == 0)
 	{
-		USART_Write(USART2, (uint8_t *)"       !!Welcome To The Main Menue!!\r\n\r\n\n\n", 20);
-		USART_Write(USART2, (uint8_t *)"       Would You Like To Start The Program?\r\n\r\n\n\n", 20);
+		USART_Write(USART2, (uint8_t *)"!!Welcome To The Main Menue!!\r\n\r\n\n\n", 32);
+		USART_Write(USART2, (uint8_t *)"Would You Like To Start The Program?\r\n\r\n\n\n", 37);
 		USART_Write(USART2,(uint8_t *)starttheprogram, strlen(starttheprogram)); //telling the use what would happened based on their input
 		if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
-			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\r\n\n\n", 20);
+			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\r\n\n\n", 22);
 			return(0);
 		}
-		else if(UserInput == 'Y' || UserInput == 'y'){// User wants to rerun the program
-			USART_Write(USART2, (uint8_t *)"Running The Post Test......\r\n\r\n\n\n", 20);
+		else if(UserInput == 'Y' || UserInput == 'y'){// User wants to run the program
 			STARTPRG = 1;
 			return(1);
 		}
 		else{//this is the case if the user inputted an invalied answer
-			USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\r\n\n\n", 22);
+			USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\r\n\n\n", 28);
 			return WELCOMEMESSAGE();
 			//return -1;
 		}
@@ -98,25 +97,46 @@ int WELCOMEMESSAGE(void)
 
 //***************************************************************************************************//
 //this is for when the user wants ot edit the bounds	
-void reruns(void){
+int reruns(void){
 int h;
 char UserInput;
+int index = 0;
 int x;
 
 	USART_Write(USART2,(uint8_t *)originalbounds, strlen(originalbounds));
+    USART_Write(USART2,(uint8_t *)changebounds, strlen(changebounds));
 	UserInput = USART_Read(USART2);
-	if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
-		USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\r\n\n\n", 20);
-		return (0); //offcially exit the program
-	}
-	else if(UserInput == 'Y' || UserInput == 'y'){// User wants to rerun the program
-		USART_Write(USART2, (uint8_t *)"Rerunning the POST test......\r\n\r\n\n\n", 20);
-
-	}
-	else{//this is the case if the user inputted an invalied answer
-		USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\r\n\n\n", 22);
-
-	}
+	if(UserInput == 'N' || UserInput == 'n'){ // User wants to use the original bounds of the program
+        n = sprintf((char *)bounds, "Running with [%d] and [%d] Which Are the Original Bounds\r\n\n\n", lowestboundary, highestboundary);
+        USART_Write(USART2, bounds, n);
+	    else if (rxByte == 'Y' || rxByte == 'y'){ //
+	        USART_Write(USART2, (uint8_t *)"Changing Bounds\r\n\n\n", 17);
+	        USART_Write(USART2, (uint8_t *)"Enter A New Lower Bound: ", 24);
+	        rxByte = USART_Read(USART2);
+	        for (j = 0; j < sizeof(boundBuff)/sizeof(boundBuff[0]); j++){ // Populate array with null terminators
+	            boundBuff[j] = '\0';
+	        }
+	        while(rxByte != 0xD){ // No carriage return seen - oxD is hex ascii equivalent of \r - keep appending input to buffer
+	            memset( buffer, '\0', sizeof(buffer)); // Null terminator to indicate end of string
+	            sprintf((char *)buffer, "%c", rxByte);
+	            USART_Write(USART2, buffer, sizeof(buffer));
+	            boundBuff[index] = rxByte;
+	            index++;
+	            rxByte = USART_Read(USART2);
+	        }
+	        sscanf(boundBuff, "%d", &lowestboundary);
+	        if ( lowestboundary < 50 || lowestboundary > 9950 ) { // Ensure that the new lower bound satisfies requirements (between 50 and 9950 micro)
+	            USART_Write(USART2, (uint8_t *)"\r\nPlease enter a number between 50 and 9950\r\n\r\n", 47);
+	            run();
+	        }
+	        defaultHigh = lowestboundary + 100; // Upper bound must be 100 more than the lower bound
+	        n = sprintf((char *)nbounds, "\r\nNow running with [%d] and [%d]\r\n\r\n", lowestboundary, highestboundary);
+	        USART_Write(USART2, nbounds, n); 
+	    }
+	    else {
+	        USART_Write(USART2, (uint8_t *)"Invalid Response\r\n\r\n", 22);
+	        run();
+	    }
 
 }
 //***************************************************************************************************//	
