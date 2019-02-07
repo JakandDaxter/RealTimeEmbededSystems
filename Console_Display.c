@@ -11,10 +11,10 @@ char FaileMessage [] = " !!The Post has failed due to no pulse seen in 100ms!!\r
 char reruntheprogram [] = " Would You Like To Rerun the Program? (Y or N):\r\n\r\n\r\n\n\n";
 char originalbounds [] = "!! You are currently using the default bounds of ** 950 microseconds & 1050 microseconds ** !!\r\n\r\n\n\n\r\n";
 char changebounds [] = "Would you like to change the bounds? (Y or N) \r\n\r\n\r\n\n\n";
-char starttheprogram [] = "Enter 'Y' To be Brought to the POST test, Enter 'N' to end the program completly\r\n\r\n\n\n"
+char starttheprogram [] = "Enter 'Y' To be Brought to the POST test, Enter 'N' to end the program completly\r\n\r\n\n\n";
 int lowestboundary = 950; //default value for the lowest boundary
 int highestboundary = 1050; //default value for the higest boundary
-extern int STARTPRG = 0
+int STARTPRG = 0;
 extern int POST_FLAG;
 
 // This is the POST console function. Prints to the console to let the user know the post test failed
@@ -68,11 +68,22 @@ int POST(void)
 int WELCOMEMESSAGE(void)
 {
 	char UserInput;
-	UserInput = USART_Read(USART2); //read whatever they input
+	char input_value[4];
+	static int j = 0;
+	//
 	if(STARTPRG == 0)
 	{
-		USART_Write(USART2, (uint8_t *)"       !!Welcome To The Main Menue!!\r\n\r\n\n\n", 20);
-		USART_Write(USART2, (uint8_t *)"       Would You Like To Start The Program?\r\n\r\n\n\n", 20);
+		USART_Write(USART2, (uint8_t *)"!!Welcome To The Main Menue!!\r\n", 32);
+		USART_Write(USART2, (uint8_t *)"Press enter once values are entered: ", 37);
+		
+		unsigned char USART_char = USART_Read(USART2);
+		while(USART_char != '\r')
+		{
+			USART_char = USART_Read(USART2);
+			input_value[j] = USART_char;
+			j++;
+		}
+		
 		USART_Write(USART2,(uint8_t *)starttheprogram, strlen(starttheprogram)); //telling the use what would happened based on their input
 		if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
 			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\r\n\n\n", 20);
@@ -98,7 +109,7 @@ int WELCOMEMESSAGE(void)
 
 //***************************************************************************************************//
 //this is for when the user wants ot edit the bounds	
-void reruns(void){
+int reruns(void){
 int h;
 char UserInput;
 int x;
@@ -107,15 +118,15 @@ int x;
 	UserInput = USART_Read(USART2);
 	if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
 		USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\r\n\n\n", 20);
-		return (0); //offcially exit the program
+		return 0; //offcially exit the program
 	}
 	else if(UserInput == 'Y' || UserInput == 'y'){// User wants to rerun the program
 		USART_Write(USART2, (uint8_t *)"Rerunning the POST test......\r\n\r\n\n\n", 20);
-
+		return POST();
 	}
 	else{//this is the case if the user inputted an invalied answer
 		USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\r\n\n\n", 22);
-
+		return reruns();
 	}
 
 }

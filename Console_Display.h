@@ -8,7 +8,8 @@
 
 int POSTFAIL(void);
 int POST(void);
-void reruns(void);
+int reruns(void);
 void SORTER(int array[]);
+int WELCOMEMESSAGE(void);
 
 #endif /*__Console_Display_H*/ 
