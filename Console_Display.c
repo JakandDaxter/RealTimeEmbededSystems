@@ -14,6 +14,7 @@ char changebounds [] = "Would you like to change the bounds? (Y or N) \r\n\n\n\n
 char starttheprogram [] = "Enter 'Y' To be Brought to the POST test, Enter 'N' to end the program completly\r\n\\n\n\n";
 int lowestboundary = 950; //default value for the lowest boundary
 int highestboundary = 1050; //default value for the higest boundary
+int sampledarray[1001]; //this will hold the sample values;
 int STARTPRG = 0;
 extern int POST_FLAG;
 int mainpost = 0;
@@ -45,6 +46,8 @@ int POSTFAIL(void){
 //This is the post function that will tell the user if the test failed or succeded 
 int POST(void)
 {
+    int samples = 0;
+    int Sampleindex = 0;
 	//start the timer
 	Start_Timer2(); 
 	//start of the test time 
@@ -60,8 +63,23 @@ int POST(void)
 	}
 	else if(POST_FLAG == 1 && mainpost == 1){
 		USART_Write(USART2,(uint8_t *)"POST test Passed!!\r\n\n\n\n\n",15);
+	    for ( samples = 0; samples < 1001; samples++ ){ // Take 1000 measurements - store in array
+	        Start_Timer2();
+	        Sampleindex = get_delta_time(Sampleindex);
+	        while( 1 ){
+	            if ( TIM2_IRQHandler() ){ // Event seen!
+	                sampledarray[samples] = (get_delta_time(Sampleindex) - Sampleindex);
+	                Stop_Timer2();
+	                break;
+	            }
+	            else{ // Edge not detected - sample not taken continue
+	                ;
+	            }
+	        }
+	    }
 		USART_Write(USART2,(uint8_t *)"Here is a Histogram of the data\r\n\n\n\n\n",15);
 		histogram();
+		
 	}
 	else
 	{// failed the timing requirements, edge was not seen in the time
@@ -75,8 +93,8 @@ int POST(void)
 int WELCOMEMESSAGE(void)
 {
 	char UserInput;
-	char input_value[4];
-	static int j = 0;
+	// char input_value[4];
+	// static int j = 0;
 	//
 	if(STARTPRG == 0)
 	{
@@ -119,6 +137,7 @@ int h;
 char UserInput;
 int index = 0;
 int x;
+int n;
 
 	USART_Write(USART2,(uint8_t *)originalbounds, strlen(originalbounds));
     USART_Write(USART2,(uint8_t *)changebounds, strlen(changebounds));
@@ -146,13 +165,15 @@ int x;
 	            USART_Write(USART2, (uint8_t *)"\r\nPlease enter a number between 50 and 9950\r\n\n\n", 47);
 	            editorORrunner();
 	        }
-	        defaultHigh = lowestboundary + 100; // Upper bound must be 100 more than the lower bound, add 100
+	        highestboundary = lowestboundary + 100; // Upper bound must be 100 more than the lower bound, add 100
 	        n = sprintf((char *)nbounds, "\r\nNow running with [%d] and [%d]\r\n\n\n", lowestboundary, highestboundary);
 	        USART_Write(USART2, nbounds, n);
 			///right here, get them to switch over to the POST function and run the post. and enable toe histogram to show
 			POST();
-			mainpost = 1
-			 
+			mainpost = 1;
+            else{ // Edge not detected - sample not taken continue
+                ;
+            }	 
 	    }
 	    else {
 	        USART_Write(USART2, (uint8_t *)"Invalid Response\r\n\n\n", 22);
@@ -214,43 +235,43 @@ int rerunFunc( void ){
 //***************************************************************************************************//	
 // this is a function to Show the elements that were loaed into the aray 
 //***************************************************************************************************//
-void histogram( void ){
-	
-    int sizeOfArray = sizeof(time_stamp)/sizeof(time_stamp[0]); // Size of array
-    int Sample; // value of bucket
-    int indexi;    // index of bucket
-    int x;               // index of loop for bucket
-    int y;
-    quicksort(time_stamp); // calling the ssort funtnction
-    USART_Write(USART2, (uint8_t *)" Number || Count\r\n\n", 20);
-    USART_Write(USART2, (uint8_t *)"==================\r\n\r\n", 19);
-    for ( i = 0; i < sizeOfArray; i++ ){ // Loop through entire array and print out sample and the enumeration of the element
-        Sample = 0;
-        Sample = time_stamp[i]; //make sure sample is equal to the array to manulate it
-        if ( Sample >= lowestboundary && Sample <= highestboundary ){ // Sample is within defined bounds
-            if ( i == 0 ){ // First element in array
-                Sample = count(time_stamp, Sample, time_stamp);
-                n = sprintf((char *)buffer, "%d || %d\r\n", Sample, indexi);
-                USART_Write(USART2, buffer, n); 
-            }
-            else{ // if we are not at the first bucket
-                if (Sample == time_stamp[i-1] ){ // if that number in that bukcket is the same, then we must skip over it
-                    ;
-                }
-                else{ // unique number
-                    Sample = count(time_stamp, Sample, sizeOfArray);
-                    n = sprintf((char *)buffer, "%d || %d\r\n", Sample, Sample);
-                    USART_Write(USART2, buffer, n);
-                }
-            }
-        }
-        else{ //skip samples we dont care about
-            ;
-        }
-    }
-	
-	return rerunFunc();
-}
+// void histogram( void ){
+//
+//     int sizeOfArray = sizeof(time_stamp)/sizeof(time_stamp[0]); // Size of array
+//     int Sample; // value of bucket
+//     int indexi;    // index of bucket
+//     int x;               // index of loop for bucket
+//     int y;
+//     quicksort(time_stamp); // calling the ssort funtnction
+//     USART_Write(USART2, (uint8_t *)" Number || Count\r\n\n", 20);
+//     USART_Write(USART2, (uint8_t *)"==================\r\n\r\n", 19);
+//     for ( i = 0; i < sizeOfArray; i++ ){ // Loop through entire array and print out sample and the enumeration of the element
+//         Sample = 0;
+//         Sample = time_stamp[i]; //make sure sample is equal to the array to manulate it
+//         if ( Sample >= lowestboundary && Sample <= highestboundary ){ // Sample is within defined bounds
+//             if ( i == 0 ){ // First element in array
+//                 Sample = count(time_stamp, Sample, time_stamp);
+//                 n = sprintf((char *)buffer, "%d || %d\r\n", Sample, indexi);
+//                 USART_Write(USART2, buffer, n);
+//             }
+//             else{ // if we are not at the first bucket
+//                 if (Sample == time_stamp[i-1] ){ // if that number in that bukcket is the same, then we must skip over it
+//                     ;
+//                 }
+//                 else{ // unique number
+//                     Sample = count(time_stamp, Sample, sizeOfArray);
+//                     n = sprintf((char *)buffer, "%d || %d\r\n", Sample, Sample);
+//                     USART_Write(USART2, buffer, n);
+//                 }
+//             }
+//         }
+//         else{ //skip samples we dont care about
+//             ;
+//         }
+//     }
+//
+// 	return rerunFunc();
+// }
 
 //***************************************************************************************************//	
 //***************************************************************************************************//	
