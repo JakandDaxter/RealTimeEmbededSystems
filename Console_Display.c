@@ -16,6 +16,7 @@ int lowestboundary = 950; //default value for the lowest boundary
 int highestboundary = 1050; //default value for the higest boundary
 int STARTPRG = 0;
 extern int POST_FLAG;
+int mainpost = 0;
 
 // This is the POST console function. Prints to the console to let the user know the post test failed
 // lets the user rerun the post test if need be
@@ -37,7 +38,7 @@ int POSTFAIL(void){
 	else{//this is the case if the user inputted an invalied answer
 		USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\n\n\n", 22);
 		//return FAIL();
-		return -1;
+		return POSTFAIL();
 	}
 }
 
@@ -51,15 +52,21 @@ int POST(void)
 	{
 		//do nothing
 	}
-	if (POST_FLAG == 1) {//the edge has been sucessfully seen
-			USART_Write(USART2,(uint8_t *)"POST test Passed!! Moving onto next Program.......\r\n\n\n\n\n",20);
-			//TIM2->CR1 &= ~(TIM_CR1_CEN); //Turn off timer 2 //somehow make this a fcuntion
+	if (POST_FLAG == 1 && mainpost == 0) {//the edge has been sucessfully seen
+			USART_Write(USART2,(uint8_t *)"POST test Passed!! Moving onto next Program.......\r\n\n\n\n\n",30);
+			Stop_Timer2();; //Turn off timer 2 //somehow make this a fcuntion
+			editorORrunner();
 			return 1;
+	}
+	else if(POST_FLAG == 1 && mainpost == 1){
+		USART_Write(USART2,(uint8_t *)"POST test Passed!!\r\n\n\n\n\n",15);
+		USART_Write(USART2,(uint8_t *)"Here is a Histogram of the data\r\n\n\n\n\n",15);
+		histogram();
 	}
 	else
 	{// failed the timing requirements, edge was not seen in the time
 		USART_Write(USART2, (uint8_t *)"!!POST HAS FAILED!!\r\n\n\n\n",17);
-		TIM2->CR1 &= ~(TIM_CR1_CEN); //Turn off timer 2 //somehow make this a fcuntion
+		Stop_Timer2(); //Turn off timer 2 //somehow make this a fcuntion
 		return POSTFAIL();
 	}
 }
@@ -77,12 +84,12 @@ int WELCOMEMESSAGE(void)
 		USART_Write(USART2, (uint8_t *)"!!Welcome To The Main Menue!!\r\n\n\n\n", 32);
 		USART_Write(USART2, (uint8_t *)"Would You Like To Start The Program?\r\n\n\n\n", 37);
 		unsigned char USART_char = USART_Read(USART2);
-		while(USART_char != '\r')
-		{
-			USART_char = USART_Read(USART2);
-			input_value[j] = USART_char;
-			j++;
-		}
+		// while(USART_char != '\r')
+		// {
+		// 	USART_char = USART_Read(USART2);
+		// 	input_value[j] = USART_char;
+		// 	j++;
+		// }
 		
 		USART_Write(USART2,(uint8_t *)starttheprogram, strlen(starttheprogram)); //telling the use what would happened based on their input
 		if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
@@ -142,7 +149,9 @@ int x;
 	        defaultHigh = lowestboundary + 100; // Upper bound must be 100 more than the lower bound, add 100
 	        n = sprintf((char *)nbounds, "\r\nNow running with [%d] and [%d]\r\n\n\n", lowestboundary, highestboundary);
 	        USART_Write(USART2, nbounds, n);
-			///right here, get them to switch over to the POST function and run the post.
+			///right here, get them to switch over to the POST function and run the post. and enable toe histogram to show
+			POST();
+			mainpost = 1
 			 
 	    }
 	    else {
@@ -153,7 +162,7 @@ int x;
 //***************************************************************************************************//	
 //this is a functions that goes through the array of the times and sorts them from lowest to greatest
 //***************************************************************************************************//	
-void quicksort(int number[25],int first,int last){
+void quicksort(int number[1001],int first,int last){
    int i, j, pivot, temp;
 
    if(first<last){
@@ -195,7 +204,7 @@ int rerunFunc( void ){
     }
     else if (UserInput == 'Y' || UserInput == 'y'){ // rerun program
         USART_Write(USART2, (uint8_t *)"Rerunning Program\r\n\r\n", 23);
-        return 1;
+        POST();
     }
     else { // they dont know what they doing
         USART_Write(USART2, (uint8_t *)"Invalid Response\r\n\r\n", 22);
@@ -206,6 +215,7 @@ int rerunFunc( void ){
 // this is a function to Show the elements that were loaed into the aray 
 //***************************************************************************************************//
 void histogram( void ){
+	
     int sizeOfArray = sizeof(time_stamp)/sizeof(time_stamp[0]); // Size of array
     int Sample; // value of bucket
     int indexi;    // index of bucket
@@ -238,6 +248,8 @@ void histogram( void ){
             ;
         }
     }
+	
+	return rerunFunc();
 }
 
 //***************************************************************************************************//	
