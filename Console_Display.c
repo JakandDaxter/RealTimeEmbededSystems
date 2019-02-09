@@ -32,7 +32,7 @@ int POSTFAIL(void){
 	//Loop until valid input is registered
 	while(1)
 	{
-		if(UserInput == 'Y' || UserInput == 'y')break;
+		if(UserInput == 'Y' || UserInput == 'y')return 1;
 		else if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
 			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n", 17);
 			return (0); //offcially exit the program
@@ -115,9 +115,11 @@ int WELCOMEMESSAGE(void)
 	//uint8_t *input_value;
 	
 	int j = 0;
+	Red_LED_Off();
+	Green_LED_Off();
 	Print("Welcome to the Input Capture system\r\n");
 	Print("The system generates a histogram of the period of a refrence clock. \n\r");
-	Print("To use the system, enter a lower bound into the terminal below or hit ENTER to accept the default value of 950us.\n\r");
+	Print("To use the system, enter a lower bound into the terminal below or\n\rhit ENTER to accept the default value of 950us.\n\r");
 	USART_Write(USART2,(uint8_t*)"Enter lower bound: ",19);
 	unsigned char USART_char = '0';
 	uint8_t * ptr_USART_char = &USART_char;

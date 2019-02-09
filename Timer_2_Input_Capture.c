@@ -93,7 +93,7 @@ void Init_Timer2(uint32_t arr)
 	TIM2->CCMR1 &= ~(TIM_CCER_CC1NP | TIM_CCER_CC1P); // Clears the two bits making it rising edge detector
 	
 	TIM2->CR1 |= TIM_CR1_URS; //Only overflow generates an update event 
-	TIM2->CR1 |= TIM_CR1_UDIS;
+	//
 	
 	TIM2->DIER  |= (TIM_DIER_CC1IE | TIM_DIER_UIE); //enables interrupts
 	
@@ -107,9 +107,14 @@ void Start_Timer2(void)
 	time.stamp[0] = 0;
 	time.stamp[1] = 0;
 	time.i = 0;
+	
+	TIM2->CR1 |= TIM_CR1_UDIS;
 	TIM2->CNT = 0;
 	TIM2->CCER |= TIM_CCER_CC1E; //enablt capture compare
 	TIM2->CR1 |= TIM_CR1_CEN;
+	TIM2->CR1 &= ~TIM_CR1_UDIS;
+	
+	POST_FLAG=0;
 }
 //stops the timer
 void Stop_Timer2(void)
