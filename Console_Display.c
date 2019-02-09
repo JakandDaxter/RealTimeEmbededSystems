@@ -1,23 +1,26 @@
 #include "Console_Display.h"
 #include "Timer_2_Input_Capture.h"
 #include "LED.h"
+#include <string.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <math.h>
 
-uint8_t buffer[BufferSize];
-uint8_t bounds[BufferSize];
-uint8_t nbounds[BufferSize];
-char boundBuff[4]; //because the number they input can not be more than 5 digits
 
-char FaileMessage [] = " !!The Post has failed due to no pulse seen in 100ms!!\r\n\n\n\n\n";
-char reruntheprogram [] = " Would You Like To Rerun the Program? (Y or N):\r\n\n\n\n\n";
-char originalbounds [] = "!! You are currently using the default bounds of ** 950 microseconds & 1050 microseconds ** !!\r\n\n\n\n\n";
-char changebounds [] = "Would you like to change the bounds? (Y or N) \r\n\n\n\n\n";
-char starttheprogram [] = "Enter 'Y' To be Brought to the POST test, Enter 'N' to end the program completly\r\n\\n\n\n";
-int lowestboundary = 950; //default value for the lowest boundary
-int highestboundary = 1050; //default value for the higest boundary
-int sampledarray[1001]; //this will hold the sample values;
-int STARTPRG = 0;
+char FaileMessage [] = "!!The Post has failed due to no pulse seen in 100ms!!\r\n";
+char reruntheprogram [] = "Would You Like To Rerun the Program? (Y or N):\r\n";
 extern int POST_FLAG;
-int mainpost = 0;
+unsigned char UserInput[4];
+
+const int LOWER_BOUND = 950;
+const int UPPER_BOUND = 1050;
+
+uint32_t buckets[101];
+uint32_t histogram[101];
+
+extern uint32_t delta_time[ARRAY_SIZE];
+uint8_t buffer[BufferSize];
 
 // This is the POST console function. Prints to the console to let the user know the post test failed
 // lets the user rerun the post test if need be
@@ -26,213 +29,202 @@ int POSTFAIL(void){
 	USART_Write(USART2,(uint8_t *)FaileMessage, strlen(FaileMessage));
 	USART_Write(USART2,(uint8_t *)reruntheprogram, strlen(reruntheprogram));
 	UserInput = USART_Read(USART2);
-	if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
-		USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\n\n\n", 20);
-		return (0); //offcially exit the program
-	}
-	else if(UserInput == 'Y' || UserInput == 'y'){// User wants to rerun the program
-		USART_Write(USART2, (uint8_t *)"Rerunning the POST test......\r\n\n\n\n", 20);
-		Red_LED_Off();
-		POST_FLAG = 0;
-		return POST();
-	}
-	else{//this is the case if the user inputted an invalied answer
-		USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\n\n\n", 22);
-		//return FAIL();
-		return POSTFAIL();
+	//Loop until valid input is registered
+	while(1)
+	{
+		if(UserInput == 'Y' || UserInput == 'y')break;
+		else if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
+			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n", 17);
+			return (0); //offcially exit the program
+		}
+		else{//this is the case if the user inputted an invalied answer
+			USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n", 30);
+			UserInput = USART_Read(USART2);
+			//return FAIL();
+			//return POSTFAIL();
+		}
 	}
 }
 
 //This is the post function that will tell the user if the test failed or succeded 
 int POST(void)
 {
-    int samples = 0;
-    int Sampleindex = 0;
+	int lower_bound = WELCOMEMESSAGE();
+	int test_input = Verify_Input(lower_bound);
+	
+	if(test_input == -1)
+	{
+		Print("Your lower bound is out of range\n\r");
+		Print("Press enter to restart.....\n\r");
+		char rxbyte = USART_Read(USART2);
+		while(rxbyte != '\r')
+		{
+			rxbyte = USART_Read(USART2);
+		}//wait until enter is pushed
+		return 1;
+	}
+	else
+	{
+		if(test_input == 1)
+		{
+			lower_bound = LOWER_BOUND;
+		}
+	}
+	Print("Press enter to start.....\n\r");
+	while(USART_Read(USART2) != '\r'){}//wait until enter is pushed
 	//start the timer
 	Start_Timer2(); 
 	//start of the test time 
-	while(POST_FLAG == 0)
+	while(POST_FLAG == 0 && delta_time[999] == 0)
 	{
-		//do nothing
+		Print(".");
 	}
-	if (POST_FLAG == 1 && mainpost == 0) {//the edge has been sucessfully seen
-			USART_Write(USART2,(uint8_t *)"POST test Passed!! Moving onto next Program.......\r\n\n\n\n\n",30);
-			Stop_Timer2();; //Turn off timer 2 //somehow make this a fcuntion
-			editorORrunner();
-			return 1;
-	}
-	else if(POST_FLAG == 1 && mainpost == 1){
-		USART_Write(USART2,(uint8_t *)"POST test Passed!!\r\n\n\n\n\n",15);
-	    for ( samples = 0; samples < 1001; samples++ ){ // Take 1000 measurements - store in array
-	        Start_Timer2();
-	        Sampleindex = get_delta_time(Sampleindex);
-	        while( 1 ){
-	            if ( TIM2_IRQHandler() ){ // Event seen!
-	                sampledarray[samples] = (get_delta_time(Sampleindex) - Sampleindex);
-	                Stop_Timer2();
-	                break;
-	            }
-	            else{ // Edge not detected - sample not taken continue
-	                ;
-	            }
-	        }
-	    }
-		USART_Write(USART2,(uint8_t *)"Here is a Histogram of the data\r\n\n\n\n\n",15);
-		histogram();
-		
-	}
-	else
-	{// failed the timing requirements, edge was not seen in the time
-		USART_Write(USART2, (uint8_t *)"!!POST HAS FAILED!!\r\n\n\n\n",17);
-		Stop_Timer2(); //Turn off timer 2 //somehow make this a fcuntion
+	Print("\n\r");
+	if(POST_FLAG == -1)
+	{
+		// failed the timing requirements, edge was not seen in the time
+		Stop_Timer2(); //Turn off timer 2
 		return POSTFAIL();
+	}
+	Stop_Timer2();
+	Print("POST test Passed!!\r\n");
+	Print("Here is a Histogram of the data\r\n\n");	
+	Pop_Histogram(lower_bound);
+	Print(reruntheprogram);
+	while(1)
+	{
+		char UserInput = USART_Read(USART2);
+		if(UserInput == 'Y' || UserInput == 'y')
+		{
+			delta_time[999] = 0;
+			return 1;
+		}
+		else if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
+			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n", 17);
+			return (0); //offcially exit the program
+		}
+		else{//this is the case if the user inputted an invalied answer
+			USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n", 30);
+		}
 	}
 }
 //***************************************Welcome Message**********************************************//
 
 int WELCOMEMESSAGE(void)
 {
-	char UserInput;
-	// char input_value[4];
-	// static int j = 0;
-	//
-	if(STARTPRG == 0)
-	{
-
-		USART_Write(USART2, (uint8_t *)"!!Welcome To The Main Menue!!\r\n\n\n\n", 32);
-		USART_Write(USART2, (uint8_t *)"Would You Like To Start The Program?\r\n\n\n\n", 37);
-		unsigned char USART_char = USART_Read(USART2);
-		// while(USART_char != '\r')
-		// {
-		// 	USART_char = USART_Read(USART2);
-		// 	input_value[j] = USART_char;
-		// 	j++;
-		// }
-		
-		USART_Write(USART2,(uint8_t *)starttheprogram, strlen(starttheprogram)); //telling the use what would happened based on their input
-		if(UserInput == 'N' || UserInput == 'n'){ // User wants to exit the program
-			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\n\n\n", 22);
-			return(0);
-		}
-		else if(UserInput == 'Y' || UserInput == 'y'){// User wants to run the program
-			STARTPRG = 1;
-			return(1);
-		}
-		else{//this is the case if the user inputted an invalied answer
-			USART_Write(USART2, (uint8_t *)"Invalid Response Was Entered\r\n\n\n\n", 28);
-			return WELCOMEMESSAGE();
-			//return -1;
-		}
-		
-		
-	}	
+	//uint8_t *input_value;
 	
+	int j = 0;
+	Print("Welcome to the Input Capture system\r\n");
+	Print("The system generates a histogram of the period of a refrence clock. \n\r");
+	Print("To use the system, enter a lower bound into the terminal below or hit ENTER to accept the default value of 950us.\n\r");
+	USART_Write(USART2,(uint8_t*)"Enter lower bound: ",19);
+	unsigned char USART_char = '0';
+	uint8_t * ptr_USART_char = &USART_char;
+	while(USART_char != '\r')
+	{
+		USART_char = USART_Read(USART2);
+		USART_Write(USART2,ptr_USART_char,1);
+		if(isdigit(*ptr_USART_char))
+		{
+			UserInput[j] = *ptr_USART_char;
+			j++;
+		}
+	}
+	Print("\n\r");
+	return Parse_Str_To_Int(UserInput,j);
 }
 //***************************************************************************************************//
-//					This is the main program to interact with the user
-//***************************************************************************************************//
-//this is for when the user wants to edit the bounds	
-int editorORrunner(void){
-int h;
-char UserInput;
-int index = 0;
-int x;
-int n;
-
-	USART_Write(USART2,(uint8_t *)originalbounds, strlen(originalbounds));
-    USART_Write(USART2,(uint8_t *)changebounds, strlen(changebounds));
-	UserInput = USART_Read(USART2);
-	if(UserInput == 'N' || UserInput == 'n'){ // User wants to use the original bounds of the program
-        n = sprintf((char *)bounds, "Running with [%d] and [%d] Which Are the Original Bounds\r\n\n\n", lowestboundary, highestboundary);
-        USART_Write(USART2, bounds, n);
-	    else if (UserInput == 'Y' || UserInput == 'y'){ //now we are going to change the bounds 
-	        USART_Write(USART2, (uint8_t *)"Changing Bounds\r\n\n\n", 17);
-	        USART_Write(USART2, (uint8_t *)"Enter A New Lower Bound: ", 24);
-	        UserInput = USART_Read(USART2);
-	        for (j = 0; j < sizeof(boundBuff)/sizeof(boundBuff[0]); j++){ // Populate array with nothing for now
-	            boundBuff[j] = '\0';
-	        }
-	        while(UserInput != 0xD){//while the user did not press enter 
-	            memset( buffer, '\0', sizeof(buffer)); // Null to indicate end of string
-	            sprintf((char *)buffer, "%c", UserInput);
-	            USART_Write(USART2, buffer, sizeof(buffer));
-	            boundBuff[index] = UserInput;
-	            index++;
-	            UserInput = USART_Read(USART2);
-	        }
-	        sscanf(boundBuff, "%d", &lowestboundary);
-	        if ( lowestboundary < 50 || lowestboundary > 9950 ) { // Ensure that the new lower bound satisfies is between 50 and 9950 microseconds
-	            USART_Write(USART2, (uint8_t *)"\r\nPlease enter a number between 50 and 9950\r\n\n\n", 47);
-	            editorORrunner();
-	        }
-	        highestboundary = lowestboundary + 100; // Upper bound must be 100 more than the lower bound, add 100
-	        n = sprintf((char *)nbounds, "\r\nNow running with [%d] and [%d]\r\n\n\n", lowestboundary, highestboundary);
-	        USART_Write(USART2, nbounds, n);
-			///right here, get them to switch over to the POST function and run the post. and enable toe histogram to show
-			POST();
-			mainpost = 1;
-            else{ // Edge not detected - sample not taken continue
-                ;
-            }	 
-	    }
-	    else {
-	        USART_Write(USART2, (uint8_t *)"Invalid Response\r\n\n\n", 22);
-	        editorORrunner();
-	    }
+//parse User_Input to ints to create lower limit
+int Parse_Str_To_Int(unsigned char * arrayStart, int sizeOfArray)
+{
+	int output = 0;
+	for(int i = 0; i < sizeOfArray; i++)
+	{
+		 output += (*(arrayStart+i) - '0') * pow(10,(sizeOfArray-1)-i);
+	}
+	return output;
 }
-//***************************************************************************************************//	
+//***************************************************************************************************//
+//verify input
+int Verify_Input(int input)
+{
+	if(input >= 50 && input <= 9950)return 0;
+	else if(input == 0){return 1;}
+	else return -1;
+}
+//***************************************************************************************************//
 //this is a functions that goes through the array of the times and sorts them from lowest to greatest
 //***************************************************************************************************//	
-void quicksort(int number[1001],int first,int last){
-   int i, j, pivot, temp;
-
-   if(first<last){
-      pivot=first;
-      i=first;
-      j=last;
-
-      while(i<j){
-         while(number[i]<=number[pivot]&&i<last)
-            i++;
-         while(number[j]>number[pivot])
-            j--;
-         if(i<j){
-            temp=number[i];
-            number[i]=number[j];
-            number[j]=temp;
-         }
-      }
-
-      temp=number[pivot];
-      number[pivot]=number[j];
-      number[j]=temp;
-      quicksort(number,first,j-1);
-      quicksort(number,j+1,last);
-
-   }
+	
+void SORTER(uint32_t A[], int size)
+{
+	for(int i=0; i<size; i++)
+	{
+		for(int j=0; j<size-1; j++)
+		{
+			if( A[j] > A[j+1] )
+			{
+				int temp = A[j];
+				A[j] = A[j+1];
+				A[j+1] = temp;
+			}
+		}
+	}
 }
-
-//***************************************************************************************************//	
-// this is a function to allow the user to rerun the program. or just exit the program completly
-//***************************************************************************************************//	
-int rerunFunc( void ){
-    char UserInput;
-    USART_Write(USART2, (uint8_t *)reruntheprogram, strlen(reruntheprogram));
-    UserInput = USART_Read(USART2);
-    if (UserInput == 'N' || UserInput == 'n'){ //end program
-        USART_Write(USART2, (uint8_t *)"Exitting\r\n\r\n", 14);
-        return 0;
-    }
-    else if (UserInput == 'Y' || UserInput == 'y'){ // rerun program
-        USART_Write(USART2, (uint8_t *)"Rerunning Program\r\n\r\n", 23);
-        POST();
-    }
-    else { // they dont know what they doing
-        USART_Write(USART2, (uint8_t *)"Invalid Response\r\n\r\n", 22);
-        return rerunFunc();
-    }
+//***************************************************************************************************//
+//Populate a histogram array which is the # of times a specific value has been seen
+//***************************************************************************************************//
+void Pop_Histogram (int lower_bound)
+{
+	int *histogram = malloc(10*sizeof(int));
+	int *buckets = malloc(10*sizeof(int));
+	uint32_t tmp = 0;
+	int j = 0;
+	int n;
+	int upper_bound = 100 + lower_bound;
+	SORTER(delta_time,1000);
+	for(int i = 0; i < 1000; i++)
+	{
+		if(get_delta_time(i) > lower_bound && get_delta_time(i) < upper_bound)
+		{
+			if(i == 0)
+			{
+				j = 0;
+				tmp = get_delta_time(i);
+				histogram[j] = 1;
+				buckets[j] = tmp;
+			}
+			else if(tmp == get_delta_time(i))
+			{
+				histogram[j] = histogram[j] + 1;
+			}
+			else
+			{
+				tmp = get_delta_time(i);
+				j++;
+				histogram[j] = 1;
+				buckets[j] = tmp;
+			}
+		}
+	}
+	for(int i = 0; i < 10; i++)
+	{
+		if(histogram[i] != 0)
+		{
+			n = sprintf((char *)buffer, "%d\t", buckets[i]);
+			USART_Write(USART2, buffer, n);
+			n = sprintf((char *)buffer, "%d\r\n", histogram[i]);
+			USART_Write(USART2, buffer, n);
+			
+		}
+	}
+	memset(buckets,0,10*sizeof(int));
+	memset(histogram,0,10*sizeof(int));
+	free(histogram);
+	free(buckets);
+	Print("\n");
 }
-//***************************************************************************************************//	
 // this is a function to Show the elements that were loaed into the aray 
 //***************************************************************************************************//
 // void histogram( void ){

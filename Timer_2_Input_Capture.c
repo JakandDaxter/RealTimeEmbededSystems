@@ -44,15 +44,16 @@ void TIM2_IRQHandler  (void)
 	if((TIM2->SR & TIM_SR_CC1IF) == TIM_SR_CC1IF)
 	{
 		time = timeUpdate(time);
-		POST_FLAG = 1;
+		Green_LED_Toggle();
+		//POST_FLAG = 1;
 	}
 	else if((TIM2->SR & TIM_SR_UIF) == TIM_SR_UIF)
 	{
 		Red_LED_On();
 		TIM2->CR1 &= ~(TIM_CR1_CEN); //Turn off timer 2
+		POST_FLAG = -1;
 	}
 	TIM2->SR &= ~(TIM_SR_CC1IF | TIM_SR_UIF);
-	POST_FLAG = -1;
 }
 //it steps PA0 as an alternate function and that alternate function is timer2 channel 1
 void Init_GPIO(void)
@@ -82,9 +83,9 @@ void Init_GPIO(void)
 void Init_Timer2(uint32_t arr)
 {
 	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN; //Enable clock for Timer 2
-	LED_Init();
 	
 	TIM2->CCER &= ~(TIM_CCER_CC1E); //disable capture compare to be able to write to control registers 
+	TIM2->CR1 &= ~(TIM_CR1_CEN);
 	TIM2->ARR = arr; //Timer 2 auto reload register
 	
 	TIM2->CCMR1 &= ~(TIM_CCMR1_OC1PE | 3U | (1U<<2) | (1U<<3)); //Timer 2 No preload no fast enable
@@ -92,9 +93,9 @@ void Init_Timer2(uint32_t arr)
 	TIM2->CCMR1 &= ~(TIM_CCER_CC1NP | TIM_CCER_CC1P); // Clears the two bits making it rising edge detector
 	
 	TIM2->CR1 |= TIM_CR1_URS; //Only overflow generates an update event 
+	TIM2->CR1 |= TIM_CR1_UDIS;
 	
 	TIM2->DIER  |= (TIM_DIER_CC1IE | TIM_DIER_UIE); //enables interrupts
-	TIM2->CCER |= TIM_CCER_CC1E; //enablt capture compare
 	
 	NVIC_EnableIRQ(TIM2_IRQn); //enable the interrupt
 }
@@ -102,10 +103,12 @@ void Init_Timer2(uint32_t arr)
 //clears the struct then starts the timer
 void Start_Timer2(void)
 {
+	i = 0;
 	time.stamp[0] = 0;
 	time.stamp[1] = 0;
 	time.i = 0;
 	TIM2->CNT = 0;
+	TIM2->CCER |= TIM_CCER_CC1E; //enablt capture compare
 	TIM2->CR1 |= TIM_CR1_CEN;
 }
 //stops the timer
@@ -114,3 +117,7 @@ void Stop_Timer2(void)
 	TIM2->CR1 &= ~TIM_CR1_CEN;
 }
 
+void Clear_Delta_Time(void)
+{
+	memset(&delta_time,0,(ARRAY_SIZE*sizeof(int)));
+}

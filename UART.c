@@ -127,6 +127,11 @@ void USART_Delay(uint32_t us) {
 	while(--time);   
 }
 
+void Print(char str[])
+{
+	USART_Write(USART2,(uint8_t*)str,strlen(str));
+}
+
 void USART_IRQHandler(USART_TypeDef * USARTx, uint8_t *buffer, uint32_t * pRx_counter){
 	if(USARTx->ISR & USART_ISR_RXNE) {						// Received data                         
 		buffer[*pRx_counter] = USARTx->RDR;         // Reading USART_DR automatically clears the RXNE flag 

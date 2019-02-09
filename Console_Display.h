@@ -9,11 +9,13 @@
 int POSTFAIL(void);
 int POST(void);
 int reruns(void);
-//void SORTER(int array[]);
+void SORTER(uint32_t A[], int size);
 int WELCOMEMESSAGE(void);
+int Parse_Str_To_Int(unsigned char * arrayStart, int sizeOfArray);
+int Verify_Input(int input);
 int editorORrunner(void);
-void quicksort(int number[1001],int first,int last);
+void Pop_Buckets(int lower_bound);
+void Pop_Histogram (int lower_bound);
+void Output_Histogram(void);
 int rerunFunc( void );
-void histogram( void );
-
 #endif /*__Console_Display_H*/ 

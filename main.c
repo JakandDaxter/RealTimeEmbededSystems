@@ -8,13 +8,16 @@
 #include "Timer_2_Input_Capture.h"
 #include "Console_Display.h"
 
+
+
 //static uint8_t buffer[BufferSize];
 int j = 0;
 extern int STARTPRG;
+extern unsigned char UserInput[4];
 
 int main(void)
 {
-	
+	uint8_t buffer[BufferSize];
 	
 	__disable_irq();// disables interrupts
 	System_Clock_Init(); 
@@ -23,18 +26,11 @@ int main(void)
 	Init_Timer2(8000000U);
 	UART2_Init();
 	__enable_irq();
+	
+	int n = 0;
+	
 	while(1)
 	{
-		USART_Write(USART2, (uint8_t*)"Press enter to continue\n\r", 25);
-		unsigned char USART_char = USART_Read(USART2);
-		while(USART_char != '\r'){}
-		USART_Write(USART2, &USART_char, 1);
-		USART_Write(USART2, (uint8_t *)"\n\r", 2);
-		WELCOMEMESSAGE();
-		while(STARTPRG == 1)
-		{ //so unless they say start the program it wont start}
-			USART_Write(USART2, (uint8_t *)"Exitting Program......\r\n\r\n\n\n\n\n", 20);
-			return (0); //so it will end the program	
-		}
+		if(POST() ==0)break;
 	}
 }
