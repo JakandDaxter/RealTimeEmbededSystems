@@ -12,3 +12,6 @@
 .\objects\main.o: SysClock.h
 .\objects\main.o: UART.h
 .\objects\main.o: LED.h
+.\objects\main.o: Timer_3_PIT.h
+.\objects\main.o: Stack.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
