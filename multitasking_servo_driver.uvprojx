@@ -421,6 +421,26 @@
               <FileType>5</FileType>
               <FilePath>.\UART.h</FilePath>
             </File>
+            <File>
+              <FileName>Timer_3_PIT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Timer_3_PIT.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_3_PIT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Timer_3_PIT.h</FilePath>
+            </File>
+            <File>
+              <FileName>Stack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Stack.c</FilePath>
+            </File>
+            <File>
+              <FileName>Stack.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Stack.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
