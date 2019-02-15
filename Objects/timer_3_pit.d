@@ -10,3 +10,9 @@
 .\objects\timer_3_pit.o: C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h
 .\objects\timer_3_pit.o: SysClock.h
 .\objects\timer_3_pit.o: LED.h
+.\objects\timer_3_pit.o: States.h
+.\objects\timer_3_pit.o: Servo_CL_Compiler.h
+.\objects\timer_3_pit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\timer_3_pit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\timer_3_pit.o: Stack.h
+.\objects\timer_3_pit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h

@@ -3,6 +3,7 @@
 
 #include "stm32l476xx.h"
 #include <string.h>
+#include <stdio.h>
 
 #define BufferSize 32
 
@@ -13,6 +14,7 @@ void USART2_IRQHandler(void);
 void USART_Init(USART_TypeDef * USARTx);
 void USART_Write(USART_TypeDef * USARTx, uint8_t *buffer, uint32_t nBytes);
 void Print(char str[]);
+void Printf(char * str, int d);
 uint8_t   USART_Read(USART_TypeDef * USARTx);
 void USART_Delay(uint32_t us);
 void USART_IRQHandler(USART_TypeDef * USARTx, uint8_t *buffer, uint32_t * pRx_counter);

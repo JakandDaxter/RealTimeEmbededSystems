@@ -5,8 +5,11 @@
 #include "SysClock.h"
 #include "LED.h"
 
-#define PERIOD 200; //500us * PERIOD = Period of Timer 3  
+#define PERIOD 800; 
 
 void Timer3_Init(void);
-
+void load_recipie(void);
+void start_timer3(void);
+void stop_timer3(void);
+void restart_timer3(void);
 #endif /*__TIMER_3_PIT_H*/
