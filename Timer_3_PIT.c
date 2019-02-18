@@ -35,7 +35,7 @@ void Timer3_Init(void)
 	
 	//TIM3->ARR = 200; //auto relod with
 	//TIM3->PSC = 8000; //20ms period
-	TIM2->SR &= ~TIM_SR_UIF; // clear update flag
+	TIM3->SR &= ~TIM_SR_UIF; // clear update flag
 	//tim3->CCMR1 |=TIM_CCMR1_ 
 	//---------------------------------------------
 	TIM3->DIER |= TIM_DIER_UIE; //Enable update interrupt for timer 3
