@@ -7,22 +7,20 @@
 #include "LED.h"
 #include "States.h"
 #include "Timer_3_PIT.h"
-#include "Stack.h"
 #include "Servo_CL_Compiler.h"
-#include "Timer_5_PIT.h"
+#include "Servo.h"
 
-uint8_t buffer[BufferSize];
+extern struct Servo* servo_1;
+extern struct Servo* servo_2;
 
 int main(void)
 {
-	uint8_t buffer[BufferSize];
 	__disable_irq();// disables interrupts
 	System_Clock_Init(); 
 	LED_Init();
 	UART2_Init();
 	Timer3_Init();
 	__enable_irq();
-	start_timer5();
 	unsigned char UserInput[10];
 	Print("Welcome to the Servo Control system\r\n");
 	Print("The system simultaneously controls two servos.\n\rEach servo has a dedicated command script that has been preloaded.\n\r");
@@ -30,13 +28,12 @@ int main(void)
 	while(1)
 	{
 		int j = 0;
-		Red_LED_Off();
-		Green_LED_Off();
+		memset(&UserInput,0,sizeof(UserInput));
 		Print(">");
 		unsigned char USART_char = '0';
 		while(USART_char != '\r')
 		{
-			USART_char = USART_Read(USART2);
+			USART_char = USART_Read(USART2);						
 			USART_Write(USART2,&USART_char,1);
 			UserInput[j] = USART_char;
 			j++;
@@ -44,31 +41,39 @@ int main(void)
 		Print("\n\r");
 		if((UserInput[0] == 'B') || (UserInput[0] == 'b'))
 		{
-			start_timer3();	
+			start_servo(servo_1);
 		}
 		else if((UserInput[0] == 'P') || (UserInput[0] == 'p'))
 		{
-			stop_timer3();
+			pause_servo(servo_1);
 		}
 		else if((UserInput[0] == 'C') || (UserInput[0] == 'c'))
 		{
-			restart_timer3();
-		} 
+			continue_servo(servo_1);
+		}
+		else if((UserInput[0] == 'N') || (UserInput[0] == 'n'))
+		{
+			
+		}		
 		else{Print("Override Not Available\n\r");}
 		/*Servo 2 control*/
 		
 		if((UserInput[1] == 'B') || (UserInput[1] == 'b'))
 		{
-			start_timer5();	
+			start_servo(servo_2);	
 		}
 		else if((UserInput[1] == 'P') || (UserInput[1] == 'p'))
 		{
-			stop_timer5();
+			pause_servo(servo_2);
 		}
 		else if((UserInput[1] == 'C') || (UserInput[1] == 'c'))
 		{
-			restart_timer5();
-		} 
+			continue_servo(servo_2);
+		}
+		else if((UserInput[1] == 'N') || (UserInput[1] == 'n'))
+		{
+			
+		}
 		else{Print("Override Not Available\n\r");}
 	}
 }
