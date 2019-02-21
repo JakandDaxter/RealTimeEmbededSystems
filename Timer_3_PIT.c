@@ -4,7 +4,7 @@
 #include "Servo.h"
 #include <stdlib.h>
 
-static uint8_t commands[19] = {MOV+0,MOV+5,MOV+0,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+0};
+static uint8_t commands[20] = {MOV+0,MOV+5,MOV+0,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+0,0};
 static uint8_t commands2[19] = {MOV+5,MOV+0,MOV+5,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+5};
 struct Servo* servo_1;
 struct Servo* servo_2;
@@ -35,7 +35,7 @@ void Timer3_Init(void)
 
 void load_recipies()
 {
-	servo_1 = createServo(commands, 19);
+	servo_1 = createServo(commands, 20);
 	servo_2 = createServo(commands2, 19);
 }
 
@@ -43,15 +43,8 @@ void TIM3_IRQHandler(void)
 {
 	if((TIM3->SR & TIM_SR_UIF) == TIM_SR_UIF)
 	{
-		if(executeNextInstruction(servo_1) == -1)
-		{
-			Green_LED_On();
-		}
-		if(executeNextInstruction(servo_2) == -1)
-		{
-			Red_LED_On();
-		}
-		TIM3->CNT = 0;
+		executeNextInstruction(servo_1);
+		executeNextInstruction(servo_2);
 	}
 	TIM3->SR &= ~(TIM_SR_UIF);
 }  

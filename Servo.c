@@ -18,12 +18,14 @@ struct Servo* createServo(uint8_t* commands, int size)
 void start_servo(struct Servo *servo)
 {
 	servo->callStack->top = 0;
+	servo->status = status_running;
 }
 
 void continue_servo(struct Servo *servo)
 {
 	if((servo->status == status_nested_error) || servo->status == status_command_error) return; 
 	servo->callStack->top = servo->callStack->pausePointer;
+	servo->status = status_running;
 }
 
 void pause_servo(struct Servo* servo)
@@ -39,9 +41,10 @@ void pause_servo(struct Servo* servo)
 
 void move_servo_to(struct Servo* servo, int position)
 {
-	pause_servo(servo);
+	//pause_servo(servo);
 	//call the move function implemented by Aliana servo->position = Aliana's function
-	continue_servo(servo);
+	//continue_servo(servo);
+	return;
 }
 
 int executeNextInstruction(struct Servo* servo)
@@ -63,34 +66,33 @@ int executeNextInstruction(struct Servo* servo)
 					servo->status = status_command_error;
 					return -1;
 				}
-				Printf("Move to %d\n\r", parameter);
+				move_servo_to(servo,parameter);
 				break;
 			case WAIT:
 				if((parameter > 0) && (servo->callStack->loopCount < 0)){
 					servo->callStack->top--;
-					Printf("Waiting for %d cycles\n\r", parameter);
 					servo->callStack->loopCount = parameter - 1;
+					if(servo->state != state_idle)
+					{
+						servo->state = state_idle;
+					}
 					return 0;
 				}
 				else if(servo->callStack->loopCount > 0){
 					servo->callStack->top--;
-					Printf("Waiting for %d cycles\n\r", servo->callStack->loopCount);
 					servo->callStack->loopCount--;
 					return 0;
 				}
 				else if(parameter == 0)
 				{
-					Printf("Waiting for %d cycles\n\r", parameter);
 					return 0;
 				}
-				Printf("Waiting for %d cycles\n\r", servo->callStack->loopCount);
 				servo->callStack->loopCount--;
 				return 0;
 			case LOOP:
 				servo->callStack->depth++;
 				servo->callStack->loopPointer = servo->callStack->top;
 				servo->callStack->loopCount = parameter;
-				Printf("Loop pointer saved. Top of loop is 0x%X\r\n", servo->callStack->loopPointer);
 				return 0;
 			case END_LOOP:
 				if(servo->callStack->depth > 1)
@@ -105,7 +107,10 @@ int executeNextInstruction(struct Servo* servo)
 					servo->callStack->loopCount--;
 				}
 				return 0;
-			default: Print("Command Error!\n\r");
+			case RECIPE_END:
+				Print("End has been reached");
+				return 0;
+			default: servo->status = status_command_error;
 		}
 		return 0;
 	}

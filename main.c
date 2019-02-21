@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #include "stm32l476xx.h"
 #include "SysClock.h"
@@ -35,45 +36,72 @@ int main(void)
 		{
 			USART_char = USART_Read(USART2);						
 			USART_Write(USART2,&USART_char,1);
-			UserInput[j] = USART_char;
+			UserInput[j] = (uint8_t)toupper(USART_char);
 			j++;
 		}
 		Print("\n\r");
-		if((UserInput[0] == 'B') || (UserInput[0] == 'b'))
+		if(UserInput[j-2] != 'X')
 		{
-			start_servo(servo_1);
-		}
-		else if((UserInput[0] == 'P') || (UserInput[0] == 'p'))
-		{
-			pause_servo(servo_1);
-		}
-		else if((UserInput[0] == 'C') || (UserInput[0] == 'c'))
-		{
-			continue_servo(servo_1);
-		}
-		else if((UserInput[0] == 'N') || (UserInput[0] == 'n'))
-		{
+			if(UserInput[0] == 'B')
+			{
+				start_servo(servo_1);
+				
+			}
+			else if(UserInput[0] == 'P')
+			{
+				pause_servo(servo_1);
+			}
+			else if(UserInput[0] == 'C')
+			{
+				continue_servo(servo_1);
+			}
+			else if(UserInput[0] == 'N')
+			{
+				
+			}
+			else{Print("Override Not Available\n\r");}
+			/*Servo 2 control*/
 			
-		}		
-		else{Print("Override Not Available\n\r");}
-		/*Servo 2 control*/
+			if(UserInput[1] == 'B')
+			{
+				start_servo(servo_2);	
+			}
+			else if(UserInput[1] == 'P')
+			{
+				pause_servo(servo_2);
+			}
+			else if(UserInput[1] == 'C')
+			{
+				continue_servo(servo_2);
+			}
+			else if(UserInput[1] == 'N')
+			{
+				
+			}
+			else{Print("Override Not Available\n\r");}
+		}
 		
-		if((UserInput[1] == 'B') || (UserInput[1] == 'b'))
+		switch(servo_1->status)
 		{
-			start_servo(servo_2);	
+			case status_running:
+				Green_LED_On();
+				Red_LED_Off();
+				break;
+			case status_command_error:
+				Red_LED_On();
+				Green_LED_Off();
+				break;
+			case status_nested_error:
+				Red_LED_On();
+				Green_LED_On();
+				break;
+			case status_paused:
+				Green_LED_Off();
+				Red_LED_Off();
+				break;
+			default:
+				Green_LED_Off();
+				Red_LED_Off();
 		}
-		else if((UserInput[1] == 'P') || (UserInput[1] == 'p'))
-		{
-			pause_servo(servo_2);
-		}
-		else if((UserInput[1] == 'C') || (UserInput[1] == 'c'))
-		{
-			continue_servo(servo_2);
-		}
-		else if((UserInput[1] == 'N') || (UserInput[1] == 'n'))
-		{
-			
-		}
-		else{Print("Override Not Available\n\r");}
 	}
 }
