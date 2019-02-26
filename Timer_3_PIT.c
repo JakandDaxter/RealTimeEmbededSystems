@@ -36,7 +36,9 @@ void Timer3_Init(void)
 void load_recipies()
 {
 	servo_1 = createServo(commands, 20);
+	servo_1->id = 1;
 	servo_2 = createServo(commands2, 19);
+	servo_2->id = 2;
 }
 
 void TIM3_IRQHandler(void)

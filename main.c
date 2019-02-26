@@ -21,6 +21,8 @@ int main(void)
 	LED_Init();
 	UART2_Init();
 	Timer3_Init();
+	Init_GPIO();
+	Init_Timer2();
 	__enable_irq();
 	unsigned char UserInput[10];
 	Print("Welcome to the Servo Control system\r\n");

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\multitasking_servo_driver.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\multitasking_servo_driver.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Feb 25 20:28:32 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Feb 25 20:46:21 2019
 <BR><P>
 <H3>Maximum Stack Usage =        120 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -899,8 +899,8 @@ Global Symbols
 <P><STRONG><a name="[8f]"></a>executeNextInstruction</STRONG> (Thumb, 280 bytes, Stack size 24 bytes, servo.o(i.executeNextInstruction))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = executeNextInstruction &rArr; Print &rArr; USART_Write
 </UL>
-<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pop
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_servo_to
+<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_servo_to
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pop
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Print
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
@@ -918,13 +918,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer3_Init
 </UL>
 
-<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 518 bytes, Stack size 24 bytes, main.o(i.main))
+<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 342 bytes, Stack size 24 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = main &rArr; Timer3_Init &rArr; load_recipies &rArr; createServo &rArr; createServoCallStack &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;toupper
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_servo
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pause_servo
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_servo_to
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;continue_servo
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Write
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Read
@@ -951,7 +950,6 @@ Global Symbols
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;continue_servo
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;executeNextInstruction
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[a6]"></a>move_to_position</STRONG> (Thumb, 100 bytes, Stack size 12 bytes, timer_2_pwm.o(i.move_to_position))
