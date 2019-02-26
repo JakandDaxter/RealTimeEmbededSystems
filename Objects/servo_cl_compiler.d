@@ -15,4 +15,6 @@
 .\objects\servo_cl_compiler.o: Servo.h
 .\objects\servo_cl_compiler.o: States.h
 .\objects\servo_cl_compiler.o: Servo_CL_Compiler.h
+.\objects\servo_cl_compiler.o: Timer_2_PWM.h
+.\objects\servo_cl_compiler.o: Servo.h
 .\objects\servo_cl_compiler.o: LED.h

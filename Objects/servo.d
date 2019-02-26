@@ -15,4 +15,5 @@
 .\objects\servo.o: UART.h
 .\objects\servo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\servo.o: Servo.h
+.\objects\servo.o: Timer_2_PWM.h
 .\objects\servo.o: LED.h

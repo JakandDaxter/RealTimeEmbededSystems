@@ -41,9 +41,9 @@ void pause_servo(struct Servo* servo)
 
 void move_servo_to(struct Servo* servo, int position)
 {
-	//pause_servo(servo);
-	//call the move function implemented by Aliana servo->position = Aliana's function
-	//continue_servo(servo);
+	pause_servo(servo);
+	move_to_position(servo,position);
+	continue_servo(servo);
 	return;
 }
 

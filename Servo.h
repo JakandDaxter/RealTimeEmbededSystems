@@ -7,6 +7,7 @@
 #include "stm32l476xx.h"
 #include "States.h"
 #include "Servo_CL_Compiler.h"
+#include "Timer_2_PWM.h"
 #include "LED.h"
 
 struct Servo
@@ -16,6 +17,7 @@ struct Servo
 	int position;
 	enum status status;
 	int count;
+	int id;
 };
 
 struct Servo* createServo(uint8_t* commands, int size);

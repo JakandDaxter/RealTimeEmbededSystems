@@ -133,7 +133,7 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
+            <Capability>1</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
@@ -455,6 +455,16 @@
               <FileName>Servo.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Servo.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_2_PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Timer_2_PWM.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_2_PWM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Timer_2_PWM.h</FilePath>
             </File>
           </Files>
         </Group>
