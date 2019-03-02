@@ -5,9 +5,9 @@
 ".\objects\sysclock.o"
 ".\objects\uart.o"
 ".\objects\timer_3_pit.o"
-".\objects\stack.o"
 ".\objects\servo_cl_compiler.o"
-".\objects\timer_5_pit.o"
+".\objects\servo.o"
+".\objects\timer_2_pwm.o"
 --strict --scatter ".\Objects\multitasking_servo_driver.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -133,7 +133,7 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
+            <Capability>1</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
@@ -432,11 +432,6 @@
               <FilePath>.\Timer_3_PIT.h</FilePath>
             </File>
             <File>
-              <FileName>Stack.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Stack.c</FilePath>
-            </File>
-            <File>
               <FileName>Servo_CL_Compiler.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Servo_CL_Compiler.c</FilePath>
@@ -452,19 +447,24 @@
               <FilePath>.\States.h</FilePath>
             </File>
             <File>
-              <FileName>Stack.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Stack.h</FilePath>
-            </File>
-            <File>
-              <FileName>Timer_5_PIT.c</FileName>
+              <FileName>Servo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Timer_5_PIT.c</FilePath>
+              <FilePath>.\Servo.c</FilePath>
             </File>
             <File>
-              <FileName>Timer_5_PIT.h</FileName>
+              <FileName>Servo.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Timer_5_PIT.h</FilePath>
+              <FilePath>.\Servo.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_2_PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Timer_2_PWM.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer_2_PWM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Timer_2_PWM.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -8,8 +8,9 @@
 #define PERIOD 800; 
 
 void Timer3_Init(void);
-void load_recipie(void);
-void start_timer3(void);
-void stop_timer3(void);
-void restart_timer3(void);
+void load_recipies(void);
+void start_timer3(int channel);
+void stop_timer3(int channel);
+void restart_timer3(int channel);
+void pause_timer3(int channel);
 #endif /*__TIMER_3_PIT_H*/

@@ -22,7 +22,7 @@ enum status
 enum servo_states
 {
 	state_at_position,		// use a separate integer to record the current position (0 through 5) for each servo.
-	state_unknown,
+	state_idle,
 	state_moving,
 	state_recipe_ended
 } ;
