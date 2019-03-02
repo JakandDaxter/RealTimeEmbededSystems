@@ -24,7 +24,7 @@ void Timer3_Init(void)
 
 	TIM3->ARR = PERIOD;
 	TIM3->PSC = 8000U;
-	
+  
 	NVIC_EnableIRQ(TIM3_IRQn); //Register interrupt in NVIC
 	TIM3->EGR |= TIM_EGR_UG;
 	TIM3->CR1 |= TIM_CR1_URS;
