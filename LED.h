@@ -12,4 +12,6 @@ void Red_LED_Toggle(void);
 void Green_LED_On(void);
 void Green_LED_Off(void);
 void Green_LED_Toggle(void);
+int is_red_led_on(void);
+int is_green_led_on(void);
 #endif /* __STM32L476G_DISCOVERY_LED_H */

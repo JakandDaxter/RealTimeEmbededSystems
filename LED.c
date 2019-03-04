@@ -68,6 +68,11 @@ void Red_LED_Toggle(void){
 	GPIOB->ODR ^= GPIO_ODR_ODR_2;
 }
 
+int is_red_led_on(void)
+{
+	return ((GPIOB->ODR & GPIO_ODR_ODR_2) == GPIO_ODR_ODR_2);
+}
+
 //******************************************************************************************
 // Turn Green LED On
 //******************************************************************************************
@@ -87,4 +92,9 @@ void Green_LED_Off(void){
 //******************************************************************************************
 void Green_LED_Toggle(void){
 	GPIOE->ODR ^= GPIO_ODR_ODR_8;
+}
+
+int is_green_led_on(void)
+{
+	return ((GPIOE->ODR & GPIO_ODR_ODR_8) == GPIO_ODR_ODR_8);
 }

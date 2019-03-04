@@ -1,4 +1,6 @@
 .\objects\main.o: main.c
+.\objects\main.o: multitasking_servo_driver.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
@@ -15,9 +17,10 @@
 .\objects\main.o: LED.h
 .\objects\main.o: States.h
 .\objects\main.o: Timer_3_PIT.h
-.\objects\main.o: Servo_CL_Compiler.h
-.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: stack.h
 .\objects\main.o: Servo.h
-.\objects\main.o: Servo_CL_Compiler.h
+.\objects\main.o: stack.h
 .\objects\main.o: Timer_2_PWM.h
 .\objects\main.o: Servo.h
+.\objects\main.o: multitasking_servo_driver.h
+.\objects\main.o: overrides.h

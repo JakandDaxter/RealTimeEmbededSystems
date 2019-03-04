@@ -1,9 +1,3 @@
-#include <string.h>
-#include <stdio.h>
-
-#include "stm32l476xx.h"
-#include "SysClock.h"
-#include "LED.h"
 #include "Timer_2_PWM.h"
 
 
@@ -41,8 +35,8 @@ void Init_Timer2()
 	
 		
 	TIM2->ARR = 200; //20ms period
-	TIM2->CCR1 = 4;
-	TIM2->CCR2 = 4;
+	TIM2->CCR1 = 5;
+	TIM2->CCR2 = 5;
 	TIM2->PSC = 8000U;
 	
 
@@ -63,18 +57,17 @@ void Init_Timer2()
 
 void move_to_position(struct Servo* servo, int position)
 {
-	int delay = abs(servo->position - position)*16000000;
 	if(servo->id == 1)
 	{
 		TIM2->CCER &= ~TIM_CCER_CC1E;
-		TIM2->CCR1 = 4 + position*4;
+		TIM2->CCR1 = 5 + position*3;
 		TIM2->CCER |= TIM_CCER_CC1E;
 		//for(int i = 0; i < delay; i++){}
 	}
 	else if(servo->id == 2)
 	{
 		TIM2->CCER &= ~TIM_CCER_CC2E;
-		TIM2->CCR2 = 4 + position*4;
+		TIM2->CCR2 = 5 + position*3;
 		TIM2->CCER |= TIM_CCER_CC2E;
 		//for(int i = 0; i < delay; i++){}
 	}

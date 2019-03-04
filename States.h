@@ -5,7 +5,7 @@
 #define WAIT (0x40)
 #define LOOP (0x80)
 #define END_LOOP (0xA0)
-#define RECIPE_END (0)
+#define RECIPIE_END (0)
 
 // This is a good way to define the status of the display.
 // This should be in a header (.h) file.
