@@ -32,7 +32,7 @@ void vCustomer_Gen( void *pvParamters)
 		xStatus = xQueueSendToBack(hqueue, &Customer_TT, 0);
 		if(xStatus == pdPASS)
 		{
-			vTaskDelay(Customer_Arrival);
+			
 			
 		  // printf("Customer_ %d, Transation Time = %d\n", i , Customer_TT );
 			g = sprintf((char *)buffer, "%s", "Customer_");
@@ -44,23 +44,25 @@ void vCustomer_Gen( void *pvParamters)
 			n = sprintf((char *)buffer, "%d\n\n\r",Customer_TT);
 			HAL_UART_Transmit(&huart2, buffer, n, UART_TIMEOUT);
 		}
+	    vTaskDelay(Customer_Arrival);
 	}
 }
 
 void vTeller(void *pvParameters)
 {
 	uint32_t n;
-	uint32_t p_customer_tt;
+	uint32_t customer_tt;
 	uint8_t buffer[BUFFER_SIZE];
 	for(;;)
 	{
 		if(hqueue != 0)
 		{
-			if(xQueueReceive(hqueue, &p_customer_tt, 10) == pdPASS)
+			if(xQueueReceive(hqueue, &customer_tt, 10) == pdPASS)
 			{
-				n = sprintf((char *)buffer, "Teller busy for %d ticks \n\r", p_customer_tt);
+				n = sprintf((char *)buffer, "Teller busy for %d ticks \n\r", customer_tt);
 				HAL_UART_Transmit(&huart2, buffer, n, UART_TIMEOUT);
 			}
 		}
+		vTaskDelay(customer_tt);
 	}
 }
