@@ -1,0 +1,15 @@
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/timers.c
+banksimulation\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+banksimulation\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+banksimulation\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOSConfig.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+banksimulation\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h

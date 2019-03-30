@@ -1,0 +1,15 @@
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/queue.c
+banksimulation\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+banksimulation\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+banksimulation\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+banksimulation\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOSConfig.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+banksimulation\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h

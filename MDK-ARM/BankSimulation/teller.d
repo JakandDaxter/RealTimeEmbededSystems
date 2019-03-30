@@ -1,0 +1,13 @@
+banksimulation\teller.o: teller.c
+banksimulation\teller.o: ../Inc/teller.h
+banksimulation\teller.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+banksimulation\teller.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+banksimulation\teller.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+banksimulation\teller.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOSConfig.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
