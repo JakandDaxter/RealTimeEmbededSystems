@@ -8,6 +8,7 @@
 "banksimulation\bank_simulation.o"
 "banksimulation\teller.o"
 "banksimulation\timer_3_pit.o"
+"banksimulation\customer.o"
 "banksimulation\stm32l4xx_hal_rng.o"
 "banksimulation\stm32l4xx_hal_tim.o"
 "banksimulation\stm32l4xx_hal_tim_ex.o"

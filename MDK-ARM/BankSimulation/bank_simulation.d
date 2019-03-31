@@ -52,3 +52,4 @@ banksimulation\bank_simulation.o: ../Middlewares/Third_Party/FreeRTOS/Source/inc
 banksimulation\bank_simulation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 banksimulation\bank_simulation.o: ../Inc/teller.h
 banksimulation\bank_simulation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+banksimulation\bank_simulation.o: ../Inc/customer.h

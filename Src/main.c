@@ -182,7 +182,7 @@ int main(void)
   MX_RNG_Init();
   MX_TIM2_Init();
 	
-  queue_init();
+   queue_init();
 	Timer3_Init();
 	mutex = xSemaphoreCreateMutex();
   /* USER CODE BEGIN 2 */

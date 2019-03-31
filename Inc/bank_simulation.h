@@ -7,6 +7,7 @@
 #include "cmsis_os.h"
 #include "task.h"
 #include "teller.h"
+#include "customer.h"
 
 #define QUEUE_SIZE 50
 
