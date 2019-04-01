@@ -199,8 +199,7 @@ int main(void)
 		1, /* This task will run at priority 1. */
 		NULL ); /* This example does not use the task handle. */
 		/* Create the other task in exactly the same way and at the same priority. */
-	 
-	 //xTaskCreate( vTask2, "Task 2", 1000, NULL, 1, NULL );
+	 generate_pool();
 	 xTaskCreate(vCustomer_Gen, "Customer Generation", 100, NULL, 1, NULL);
 	 xTaskCreate(vTeller, "Teller task 1", 100, (void*)createTeller(1), 2, &hteller_1);
 	 xTaskCreate(vTeller, "Teller task 2", 100, (void*)createTeller(2), 3, &hteller_2);

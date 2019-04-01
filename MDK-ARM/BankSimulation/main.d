@@ -55,4 +55,7 @@ banksimulation\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cms
 banksimulation\main.o: ../Inc/teller.h
 banksimulation\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 banksimulation\main.o: ../Inc/customer.h
+banksimulation\main.o: ../Inc/customer_pool.h
+banksimulation\main.o: ../Inc/bank_simulation.h
+banksimulation\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 banksimulation\main.o: ../Inc/Timer_3_PIT.h

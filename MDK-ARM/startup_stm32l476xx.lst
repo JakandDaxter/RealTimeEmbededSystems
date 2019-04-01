@@ -712,7 +712,7 @@ ARM Macro Assembler    Page 11
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=banksimulation\startup_stm32l476xx.d -obanksimulation\startup_s
 tm32l476xx.o -I..\\Inc -I.\RTE\_BankSimulation -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\
-5.4.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.2.0\Drivers
+5.4.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers
 
 
 
@@ -720,7 +720,7 @@ ARM Macro Assembler    Page 12
 
 
 \CMSIS\Device\ST\STM32L4xx\Include --predefine="__EVAL SETA 1" --predefine="__M
-ICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine="_RTE_ SET
+ICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 525" --predefine="_RTE_ SET
 A 1" --predefine="STM32L476xx SETA 1" --list=startup_stm32l476xx.lst startup_st
 m32l476xx.s
 

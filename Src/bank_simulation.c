@@ -2,15 +2,6 @@
 #define BUFFER_SIZE 128
 #define UART_TIMEOUT 100000
 ///////////////////////////////////customer timestamp
-struct Customer_Ts 
-{
-
-	uint32_t customer_ET; //arrival time
-	uint32_t customer_LT; //leave queue time
-	uint32_t customer_MT; //hold the max value of that
-	uint32_t customer_TT; //hold the max value of that
-
-} Customer_Ts;
 
 
 ////////
@@ -41,23 +32,23 @@ void updateLeave(struct Customer_Ts time, uint32_t customer_left)
 	time.customer_LT = customer_left;
 }
 ///////
-void Customer_Maxupdate(struct Customer_Ts time)
-{
-	int temp;
-	
-	temp =  (time.customer_LT) - (time.customer_ET) ;
-	
-	if(( time.customer_MT) <= temp)
-	{
-	time.customer_MT = temp;
-	}
+//void Customer_Maxupdate(struct Customer_Ts time)
+//{
+//	int temp;
+//	
+//	temp =  (time.customer_LT) - (time.customer_ET) ;
+//	
+//	if(( time.customer_MT) <= temp)
+//	{
+//	time.customer_MT = temp;
+//	}
 
-}
-///////// 
-int getMaxTime(struct Customer_Ts time)
-{	
-	return time.customer_MT ;
-}
+//}
+/////////// 
+//int getMaxTime(struct Customer_Ts time)
+//{	
+//	return time.customer_MT ;
+//}
 
 ///////////  recursivly check
 
@@ -98,6 +89,9 @@ int cs_count_teller_1;
 int cs_count_teller_2;
 int cs_count_teller_3;
 
+int total_wait_time;
+uint32_t max_wait_time;
+
 int total_time_serving_customers;
 int exittime,arrivetime,maxtime;
 
@@ -112,8 +106,6 @@ void queue_init()
 
 void vCustomer_Gen( void *pvParamters)
 {
-	struct Customer_Ts customer;
-	
 	if(hqueue == NULL)
 	{
 		queue_init();
@@ -124,13 +116,15 @@ void vCustomer_Gen( void *pvParamters)
 	BaseType_t xStatus;
     for(;;)
 	{
+		struct Customer_Ts* customer = find_free_customer();
 		f = (RNG ->DR);
         Customer_TT = (f)%80 + 5; // 30s to 8mins
         Customer_Arrival = (f)%40 + 10; // 1 to 4mins
-        updateEnter(customer, xTaskGetTickCount()); //update entered time
-				updateTransationtime(customer,Customer_TT);
-		xStatus = xQueueSendToBack(hqueue, &Customer_TT, 0);
-		
+        //updateEnter(customer, xTaskGetTickCount()); //update entered time
+				//updateTransationtime(customer,Customer_TT);
+				customer->customer_ET = TIM3->CNT;
+				customer->customer_TT = Customer_TT;
+		xStatus = xQueueSendToBack(hqueue, &customer, 0);
 		if(xStatus == pdPASS)
 		{
 			vTaskDelay(Customer_Arrival);
@@ -140,23 +134,24 @@ void vCustomer_Gen( void *pvParamters)
 
 void vTeller(void *pvParameters)
 {
-	uint32_t customer_tt;
+	uint32_t n, customer_wait_time;
 	uint8_t buffer[BUFFER_SIZE];
 	struct Teller* teller = (struct Teller*)pvParameters;
-	struct Customer_Ts customer;
+	struct Customer_Ts* customer;
 	for(;;)
 	{
 		if(hqueue != 0)
 		{
-			if(xQueueReceive(hqueue, &customer_tt, 10) == pdPASS)
+			if(xQueueReceive(hqueue, &customer, 10) == pdPASS)
 			{
-				
-				updateTeller(teller, customer_tt); 
-
-				updateLeave(customer, xTaskGetTickCount()); //update leave time
-				
 				if( xSemaphoreTake( mutex, ( TickType_t ) 10 ) == pdTRUE )
         {
+					customer_wait_time = (TIM3->CNT - customer->customer_ET)/100;
+					if(customer_wait_time > max_wait_time)
+					{
+						max_wait_time = customer_wait_time;
+					}	
+					updateTeller(teller, customer->customer_TT);
 					switch(teller->id)
 					{
 						case 1:
@@ -170,7 +165,8 @@ void vTeller(void *pvParameters)
 					}
 					xSemaphoreGive(mutex);
 				}
-				vTaskDelay(customer_tt);
+				free_customer(customer->pool_index);
+				vTaskDelay(customer->customer_TT);
 			}
 		}
 	}
@@ -208,7 +204,7 @@ void vMetric(void *pvParameters)
 	
 	char* teller_1_state = displayTellerState(hteller_1);
 	char* teller_2_state = displayTellerState(hteller_2);
-	char* teller_3_state = displayTellerState(hteller_3);
+	char* teller_3_state = "NA  ";//displayTellerState(hteller_3);
 	
 	for(;;){
 		if(hqueue != 0)
@@ -223,7 +219,7 @@ void vMetric(void *pvParameters)
 		//Customer_Maxupdate(customer);//update max time
 		teller_1_state = displayTellerState(hteller_1);
 		teller_2_state = displayTellerState(hteller_2);
-		teller_3_state = displayTellerState(hteller_3);
+		//teller_3_state = displayTellerState(hteller_3);
 		if( xSemaphoreTake( mutex, ( TickType_t ) 10 ) == pdTRUE )
     {  
 			n = sprintf((char *)buffer, "Queue size = %d \t Teller 1 %s Customers Served = %d \tTeller 2 %s Customers Served = %d \tTeller 3 %s Customers Served = %d \tSimulation Time = %d:%d \r", 
@@ -244,17 +240,18 @@ void vMetric(void *pvParameters)
 			vTaskSuspendAll();
 			int total_customers_served = (cs_count_teller_1 + cs_count_teller_2 + cs_count_teller_3);
 			int avg_customer_tt = ((total_time_serving_customers / total_customers_served)*3) /10;
-			//int avg_customer_wait = 
-			int avg_teller_idle_time = abs((4200 - total_time_serving_customers) / 30);
-			int max_customer_wait = abs( ((getMaxTime(customer))/10)%60);//this math is totally not correct
+			int avg_customer_wait = total_wait_time / total_customers_served;
+			int avg_teller_idle_time = (4200 - total_time_serving_customers) / 30;
 			int max_queue_size =  currentsize.size;
 			int max_TT_time = getMaxTT(customer);
 			n = sprintf((char *)buffer, 
-				"\n\rTotal customers served = %d \n\r Maximum Transation Time = %d mins \n\r Maximum Queue Size = %d Customers \n\r Maximum Time Spent In Queue = %d mins \n\r Average time customers spend with teller = %d mins \n\r Average time tellers wait for customers = %d mins \n\r Teller 1 served %d customers \n\r Teller 2 served %d customers \n\r Teller 3 served %d customers\n\r",
+				"\n\rTotal customers served = %d \n\r Maximum Transation Time = %d mins \n\r Average customer wait time = %d mins\n\r Maximum Time Spent In Queue = %d mins \n\r" 
+				"Average time customers spend with teller = %d mins \n\r Average time tellers wait for customers = %d mins \n\r Teller 1 served %d customers \n\r Teller 2 served %d customers" 
+				"\n\r Teller 3 served %d customers\n\r",
 					total_customers_served,
 					max_TT_time,
-					max_queue_size,
-					max_customer_wait,
+					avg_customer_wait,
+					max_wait_time,
 					avg_customer_tt, 
 					avg_teller_idle_time,
 					cs_count_teller_1,
