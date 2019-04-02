@@ -11,3 +11,5 @@ banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/port
 banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
 banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
 banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+banksimulation\teller.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

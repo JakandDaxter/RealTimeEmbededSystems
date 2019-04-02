@@ -55,4 +55,5 @@ banksimulation\bank_simulation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 banksimulation\bank_simulation.o: ../Inc/customer.h
 banksimulation\bank_simulation.o: ../Inc/customer_pool.h
 banksimulation\bank_simulation.o: ../Inc/bank_simulation.h
+banksimulation\bank_simulation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 banksimulation\bank_simulation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

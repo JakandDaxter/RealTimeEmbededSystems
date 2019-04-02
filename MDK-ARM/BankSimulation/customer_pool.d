@@ -55,4 +55,5 @@ banksimulation\customer_pool.o: ../Middlewares/Third_Party/FreeRTOS/Source/inclu
 banksimulation\customer_pool.o: ../Inc/teller.h
 banksimulation\customer_pool.o: ../Inc/customer.h
 banksimulation\customer_pool.o: ../Inc/customer_pool.h
+banksimulation\customer_pool.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 banksimulation\customer_pool.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

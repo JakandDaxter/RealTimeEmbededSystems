@@ -22,49 +22,51 @@ Dialog DLL:      TCM.DLL V1.35.1.0
  
 <h2>Project:</h2>
 Z:\RealTimeEmbededSystems\RealTimeEmbededSystems-Project4\RealTimeEmbededSystems-Project4\MDK-ARM\BankSimulation.uvprojx
-Project File Date:  03/31/2019
+Project File Date:  04/01/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'BankSimulation'
 compiling bank_simulation.c...
-../Inc/teller.h(19): warning:  #1-D: last line of file ends without a newline
+../Inc/teller.h(25): warning:  #1-D: last line of file ends without a newline
   #endif /*__TELLER_H*/
 ../Inc/customer.h(13): warning:  #1-D: last line of file ends without a newline
   //#endif /*__CUSTOMER_H*/
-../Inc/bank_simulation.h(29): warning:  #1-D: last line of file ends without a newline
+../Inc/bank_simulation.h(31): warning:  #1-D: last line of file ends without a newline
   #endif /*__BANK_SIMULATION_H*/
 ../Inc/customer_pool.h(14): warning:  #1-D: last line of file ends without a newline
   #endif /*__CUSTOMER_POOL_H*/
-../Inc/bank_simulation.h(29): warning:  #1-D: last line of file ends without a newline
+../Inc/bank_simulation.h(31): warning:  #1-D: last line of file ends without a newline
   #endif /*__BANK_SIMULATION_H*/
-..\Src\bank_simulation.c(8): warning:  #550-D: parameter "time"  was set but never used
-  void updateEnter(struct Customer_Ts time, uint32_t customer_arival)
-..\Src\bank_simulation.c(30): warning:  #550-D: parameter "time"  was set but never used
-  void updateLeave(struct Customer_Ts time, uint32_t customer_left)
-..\Src\bank_simulation.c(64): warning:  #550-D: parameter "lengh"  was set but never used
-  void update_MaxQueu_size(struct queuesize lengh, int currentlength)
-..\Src\bank_simulation.c(137): warning:  #177-D: variable "n"  was declared but never referenced
-  	uint32_t n, customer_wait_time;
-..\Src\bank_simulation.c(138): warning:  #177-D: variable "buffer"  was declared but never referenced
+..\Src\bank_simulation.c(42): warning:  #177-D: variable "queue_size"  was declared but never referenced
+  	int queue_size = 0;
+..\Src\bank_simulation.c(75): warning:  #177-D: variable "n"  was declared but never referenced
+  	uint32_t n, customer_wait_time,teller_idle_stop;
+..\Src\bank_simulation.c(75): warning:  #177-D: variable "teller_idle_stop"  was declared but never referenced
+  	uint32_t n, customer_wait_time,teller_idle_stop;
+..\Src\bank_simulation.c(76): warning:  #177-D: variable "buffer"  was declared but never referenced
   	uint8_t buffer[BUFFER_SIZE];
-..\Src\bank_simulation.c(193): warning:  #940-D: missing return statement at end of non-void function "displayTellerState" 
+..\Src\bank_simulation.c(138): warning:  #940-D: missing return statement at end of non-void function "displayTellerState" 
   }
-..\Src\bank_simulation.c(245): warning:  #177-D: variable "max_queue_size"  was declared but never referenced
-  			int max_queue_size =  currentsize.size;
-..\Src\bank_simulation.c(200): warning:  #177-D: variable "queue_max"  was declared but never referenced
-  	uint32_t queue_max = 0;
-..\Src\bank_simulation.c: 13 warnings, 0 errors
+..\Src\bank_simulation.c(143): warning:  #177-D: variable "teller_idle_start"  was declared but never referenced
+  	uint16_t n = 0, teller_idle_start = 0, teller_idle_stop = 0, teller_idle_time = 0;
+..\Src\bank_simulation.c(143): warning:  #177-D: variable "teller_idle_stop"  was declared but never referenced
+  	uint16_t n = 0, teller_idle_start = 0, teller_idle_stop = 0, teller_idle_time = 0;
+..\Src\bank_simulation.c(143): warning:  #177-D: variable "teller_idle_time"  was declared but never referenced
+  	uint16_t n = 0, teller_idle_start = 0, teller_idle_stop = 0, teller_idle_time = 0;
+..\Src\bank_simulation.c(147): warning:  #177-D: variable "customer"  was declared but never referenced
+  	struct Customer_Ts customer;
+..\Src\bank_simulation.c: 14 warnings, 0 errors
 compiling main.c...
-../Inc/teller.h(19): warning:  #1-D: last line of file ends without a newline
+../Inc/teller.h(25): warning:  #1-D: last line of file ends without a newline
   #endif /*__TELLER_H*/
 ../Inc/customer.h(13): warning:  #1-D: last line of file ends without a newline
   //#endif /*__CUSTOMER_H*/
-../Inc/bank_simulation.h(29): warning:  #1-D: last line of file ends without a newline
+../Inc/bank_simulation.h(31): warning:  #1-D: last line of file ends without a newline
   #endif /*__BANK_SIMULATION_H*/
 ../Inc/customer_pool.h(14): warning:  #1-D: last line of file ends without a newline
   #endif /*__CUSTOMER_POOL_H*/
-../Inc/bank_simulation.h(29): warning:  #1-D: last line of file ends without a newline
+../Inc/bank_simulation.h(31): warning:  #1-D: last line of file ends without a newline
   #endif /*__BANK_SIMULATION_H*/
 ../Inc/Timer_3_PIT.h(13): warning:  #1-D: last line of file ends without a newline
   #endif /*__TIMER_3_PIT_H*/
@@ -78,9 +80,9 @@ compiling main.c...
   	const char *pcTaskName = "Task 2\r\n";
 ../Src/main.c: 10 warnings, 0 errors
 linking...
-Program Size: Code=17796 RO-data=1032 RW-data=160 ZI-data=17424  
+Program Size: Code=17344 RO-data=528 RW-data=172 ZI-data=17420  
 FromELF: creating hex file...
-"BankSimulation\BankSimulation.axf" - 0 Error(s), 23 Warning(s).
+"BankSimulation\BankSimulation.axf" - 0 Error(s), 24 Warning(s).
 
 <h2>Software Packages used:</h2>
 

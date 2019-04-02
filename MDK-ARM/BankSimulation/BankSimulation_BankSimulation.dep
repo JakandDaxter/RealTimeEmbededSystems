@@ -1,6 +1,6 @@
 Dependencies for Project 'BankSimulation', Target 'BankSimulation': (DO NOT MODIFY !)
 F (startup_stm32l476xx.s)(0x5CA0DAEE)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1" -I ..\\Inc-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include--pd "__UVISION_VERSION SETA 525" --pd "_RTE_ SETA 1" --pd "STM32L476xx SETA 1"--list startup_stm32l476xx.lst --xref -o banksimulation\startup_stm32l476xx.o --depend banksimulation\startup_stm32l476xx.d)
-F (../Src/main.c)(0x5CA156C6)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\main.o --omf_browse banksimulation\main.crf --depend banksimulation\main.d)
+F (../Src/main.c)(0x5CA2A191)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\main.o --omf_browse banksimulation\main.crf --depend banksimulation\main.d)
 I (../Inc/main.h)(0x5CA0DAEE)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5CA0DAEE)
 I (../Inc/stm32l4xx_hal_conf.h)(0x5CA0DAEE)
@@ -51,8 +51,8 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x5CA0DAEE)
-I (../Inc/bank_simulation.h)(0x5CA147F1)
-I (../Inc/teller.h)(0x5CA0DAEE)
+I (../Inc/bank_simulation.h)(0x5CA29ED6)
+I (../Inc/teller.h)(0x5CA28AB9)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F75EC)
 I (../Inc/customer.h)(0x5CA0DAEE)
 I (../Inc/customer_pool.h)(0x5CA1448D)
@@ -221,8 +221,8 @@ I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h)(0x5CA0DAEE)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h)(0x5CA0DAEE)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h)(0x5CA0DAEE)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h)(0x5CA0DAEE)
-F (..\Src\bank_simulation.c)(0x5CA15757)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\bank_simulation.o --omf_browse banksimulation\bank_simulation.crf --depend banksimulation\bank_simulation.d)
-I (../Inc/bank_simulation.h)(0x5CA147F1)
+F (..\Src\bank_simulation.c)(0x5CA2A19B)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\bank_simulation.o --omf_browse banksimulation\bank_simulation.crf --depend banksimulation\bank_simulation.d)
+I (../Inc/bank_simulation.h)(0x5CA29ED6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599F75EC)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x5CA0DAEE)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x599F75EC)
@@ -272,14 +272,14 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x5CA0DAEE)
-I (../Inc/teller.h)(0x5CA0DAEE)
+I (../Inc/teller.h)(0x5CA28AB9)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F75EC)
 I (../Inc/customer.h)(0x5CA0DAEE)
 I (../Inc/customer_pool.h)(0x5CA1448D)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F75EC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F75EE)
-F (..\Inc\bank_simulation.h)(0x5CA147F1)()
-F (.\teller.c)(0x5CA0DAEE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\teller.o --omf_browse banksimulation\teller.crf --depend banksimulation\teller.d)
-I (../Inc/teller.h)(0x5CA0DAEE)
+F (.\teller.c)(0x5CA28AE1)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\teller.o --omf_browse banksimulation\teller.crf --depend banksimulation\teller.d)
+I (../Inc/teller.h)(0x5CA28AB9)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599F75EC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F75EC)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x5CA0DAEE)
@@ -291,7 +291,9 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x5CA0DAEE)
-F (..\Inc\teller.h)(0x5CA0DAEE)()
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x5CA0DAEE)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x5CA0DAEE)
+F (..\Inc\teller.h)(0x5CA28AB9)()
 F (..\Inc\FreeRTOSConfig.h)(0x5CA0DAEE)()
 F (..\Inc\Timer_3_PIT.h)(0x5CA0DAEE)()
 F (..\Src\Timer_3_PIT.c)(0x5CA0DAEE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\timer_3_pit.o --omf_browse banksimulation\timer_3_pit.crf --depend banksimulation\timer_3_pit.d)
@@ -320,7 +322,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x5CA0DAEE)
-I (../Inc/bank_simulation.h)(0x5CA147F1)
+I (../Inc/bank_simulation.h)(0x5CA29ED6)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x5CA0DAEE)
 I (../Inc/main.h)(0x5CA0DAEE)
 I (../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h)(0x5CA0DAEE)
@@ -360,8 +362,9 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5CA0DAEE)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x5CA0DAEE)
-I (../Inc/teller.h)(0x5CA0DAEE)
+I (../Inc/teller.h)(0x5CA28AB9)
 I (../Inc/customer.h)(0x5CA0DAEE)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F75EC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F75EE)
 F (..\Inc\customer_pool.h)(0x5CA1448D)()
 F (../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rng.c)(0x5CA0DAEE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc -I ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_BankSimulation-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32L476xx -DUSE_HAL_DRIVER -DSTM32L476xx-o banksimulation\stm32l4xx_hal_rng.o --omf_browse banksimulation\stm32l4xx_hal_rng.crf --depend banksimulation\stm32l4xx_hal_rng.d)

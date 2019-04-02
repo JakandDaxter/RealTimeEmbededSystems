@@ -204,7 +204,7 @@ int main(void)
 	 xTaskCreate(vTeller, "Teller task 1", 100, (void*)createTeller(1), 2, &hteller_1);
 	 xTaskCreate(vTeller, "Teller task 2", 100, (void*)createTeller(2), 3, &hteller_2);
 	 xTaskCreate(vTeller, "Teller task 3", 100, (void*)createTeller(3), 4, &hteller_3);
-	 xTaskCreate(vMetric, "Bank Manager", 100, NULL, 5, NULL);
+	 //xTaskCreate(vMetric, "Bank Manager", 100, NULL, 5, NULL);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */

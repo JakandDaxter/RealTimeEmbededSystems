@@ -1,83 +1,13 @@
 #include "bank_simulation.h"
 #define BUFFER_SIZE 128
 #define UART_TIMEOUT 100000
-///////////////////////////////////customer timestamp
 
-
-////////
-void updateEnter(struct Customer_Ts time, uint32_t customer_arival)
+struct queue
 {
-	time.customer_ET = customer_arival;
-}
-////////
-void updateTransationtime(struct Customer_Ts time, uint32_t customer_tt)
-{
-	int temp;
-	 temp = customer_tt;
-	
-	if(time.customer_TT <= temp){
-		
-		time.customer_TT = temp;
-	
-	}
-}
-/////////
-int getMaxTT(struct Customer_Ts time)
-{	
-	return time.customer_TT ;
-}
-/////////
-void updateLeave(struct Customer_Ts time, uint32_t customer_left)
-{
-	time.customer_LT = customer_left;
-}
-///////
-//void Customer_Maxupdate(struct Customer_Ts time)
-//{
-//	int temp;
-//	
-//	temp =  (time.customer_LT) - (time.customer_ET) ;
-//	
-//	if(( time.customer_MT) <= temp)
-//	{
-//	time.customer_MT = temp;
-//	}
+	int size;
+};
 
-//}
-/////////// 
-//int getMaxTime(struct Customer_Ts time)
-//{	
-//	return time.customer_MT ;
-//}
-
-///////////  recursivly check
-
-struct queuesize 
-{
-
-	uint32_t size; //
-
-
-} queuesize;
-
-
-void update_MaxQueu_size(struct queuesize lengh, int currentlength)
-{
-	int temp = 0;
-	
-	if(currentlength >= temp)
-	{ 
-	 lengh.size = currentlength;
-	}				
-	 
-	lengh.size = temp;
-}
-
-int MaxQueue(struct queuesize lengh)
-{
-	return lengh.size;	
-}
-
+struct queue q;
 ///////////////////////////////////
 extern UART_HandleTypeDef huart2;
 
@@ -89,11 +19,13 @@ int cs_count_teller_1;
 int cs_count_teller_2;
 int cs_count_teller_3;
 
+int queue_size;
+
 int total_wait_time;
-uint32_t max_wait_time;
+uint32_t max_wait_time_c, max_wait_time_t;
 
 int total_time_serving_customers;
-int exittime,arrivetime,maxtime;
+int exittime,arrivetime,max_transaction_time = 0;
 
 extern SemaphoreHandle_t mutex;
 
@@ -106,6 +38,9 @@ void queue_init()
 
 void vCustomer_Gen( void *pvParamters)
 {
+	uint32_t n;
+	int queue_size = 0;
+	uint8_t buffer[BUFFER_SIZE];
 	if(hqueue == NULL)
 	{
 		queue_init();
@@ -127,6 +62,9 @@ void vCustomer_Gen( void *pvParamters)
 		xStatus = xQueueSendToBack(hqueue, &customer, 0);
 		if(xStatus == pdPASS)
 		{
+			q.size++;
+			n = sprintf((char*)buffer,"Queue size = %d \r", q.size);
+			HAL_UART_Transmit(&huart2, buffer, n, UART_TIMEOUT);
 			vTaskDelay(Customer_Arrival);
 		}
 	}
@@ -134,7 +72,7 @@ void vCustomer_Gen( void *pvParamters)
 
 void vTeller(void *pvParameters)
 {
-	uint32_t n, customer_wait_time;
+	uint32_t n, customer_wait_time,teller_idle_stop;
 	uint8_t buffer[BUFFER_SIZE];
 	struct Teller* teller = (struct Teller*)pvParameters;
 	struct Customer_Ts* customer;
@@ -144,19 +82,26 @@ void vTeller(void *pvParameters)
 		{
 			if(xQueueReceive(hqueue, &customer, 10) == pdPASS)
 			{
+				//q.size--;
 				if( xSemaphoreTake( mutex, ( TickType_t ) 10 ) == pdTRUE )
-        {
+				{
+					q.size--;
 					customer_wait_time = (TIM3->CNT - customer->customer_ET)/100;
-					if(customer_wait_time > max_wait_time)
+					if(customer_wait_time > max_wait_time_c)
 					{
-						max_wait_time = customer_wait_time;
+						max_wait_time_c = customer_wait_time;
 					}	
 					updateTeller(teller, customer->customer_TT);
+					if(customer->customer_TT > max_transaction_time)
+					{
+						max_transaction_time = customer->customer_TT;
+					}
 					switch(teller->id)
 					{
 						case 1:
 							cs_count_teller_1 = getTellerCS(teller);
 							total_time_serving_customers += getTellerTSC(teller);
+							max_wait_time_t = getTellerMaxWaitTime(teller);
 							break;
 						case 2:
 							cs_count_teller_2 = getTellerCS(teller);
@@ -195,23 +140,23 @@ char * displayTellerState(TaskHandle_t hTeller)
 void vMetric(void *pvParameters)
 {
 	uint8_t buffer[BUFFER_SIZE];
-	uint16_t n = 0;
+	uint16_t n = 0, teller_idle_start = 0, teller_idle_stop = 0, teller_idle_time = 0;
 	uint32_t queue_size = 0;
 	uint32_t queue_max = 0;
 	uint32_t sim_time, sim_time_hours, sim_time_mins = 0;
 	struct Customer_Ts customer;
-	struct queuesize currentsize;
-	
 	char* teller_1_state = displayTellerState(hteller_1);
 	char* teller_2_state = displayTellerState(hteller_2);
-	char* teller_3_state = "NA  ";//displayTellerState(hteller_3);
+	char* teller_3_state = displayTellerState(hteller_3);
 	
 	for(;;){
 		if(hqueue != 0)
 		{
 			queue_size = uxQueueMessagesWaiting(hqueue);
-			
-			update_MaxQueu_size(currentsize, uxQueueMessagesWaiting(hqueue));
+			if(queue_size > queue_max)
+			{
+				queue_max = queue_size;
+			}
 		}
 		sim_time = xTaskGetTickCount();
 		sim_time_hours = (sim_time / 600) + 9;
@@ -219,11 +164,11 @@ void vMetric(void *pvParameters)
 		//Customer_Maxupdate(customer);//update max time
 		teller_1_state = displayTellerState(hteller_1);
 		teller_2_state = displayTellerState(hteller_2);
-		//teller_3_state = displayTellerState(hteller_3);
+		teller_3_state = displayTellerState(hteller_3);
 		if( xSemaphoreTake( mutex, ( TickType_t ) 10 ) == pdTRUE )
     {  
 			n = sprintf((char *)buffer, "Queue size = %d \t Teller 1 %s Customers Served = %d \tTeller 2 %s Customers Served = %d \tTeller 3 %s Customers Served = %d \tSimulation Time = %d:%d \r", 
-					queue_size, 
+					q.size, 
 					teller_1_state,
 					cs_count_teller_1,
 					teller_2_state,
@@ -242,21 +187,24 @@ void vMetric(void *pvParameters)
 			int avg_customer_tt = ((total_time_serving_customers / total_customers_served)*3) /10;
 			int avg_customer_wait = total_wait_time / total_customers_served;
 			int avg_teller_idle_time = (4200 - total_time_serving_customers) / 30;
-			int max_queue_size =  currentsize.size;
-			int max_TT_time = getMaxTT(customer);
+			//int max_TT_time = getMaxTT(customer);
 			n = sprintf((char *)buffer, 
-				"\n\rTotal customers served = %d \n\r Maximum Transation Time = %d mins \n\r Average customer wait time = %d mins\n\r Maximum Time Spent In Queue = %d mins \n\r" 
-				"Average time customers spend with teller = %d mins \n\r Average time tellers wait for customers = %d mins \n\r Teller 1 served %d customers \n\r Teller 2 served %d customers" 
-				"\n\r Teller 3 served %d customers\n\r",
-					total_customers_served,
-					max_TT_time,
-					avg_customer_wait,
-					max_wait_time,
-					avg_customer_tt, 
-					avg_teller_idle_time,
-					cs_count_teller_1,
-					cs_count_teller_2,
-					cs_count_teller_3);
+				"\n\rTotal customers served = %d \n\rTeller 1 served %d customes \tTeller 2 served %d customers \tTeller 3 served %d customers \n\r"
+				"Average time customer spends in queue = %d mins \n\r"
+				"Average time customer spends with teller = %d mins \n\r"
+				"Average time tellers wait for customers = %d mins \n\r"
+				"Max time customer spends in queue = %d mins \n\r"
+				"Max time tellers wait for customers = %d mins \n\r"
+				"Max transaction time = %d mins \n\r"
+				"Max size of queue = %d customers \n\r",
+				total_customers_served, cs_count_teller_1, cs_count_teller_2, cs_count_teller_3,
+				avg_customer_wait,
+				avg_customer_tt,
+				avg_teller_idle_time,
+				max_wait_time_c/10,
+				max_wait_time_t/10,
+				max_transaction_time/10,
+				queue_max);
 			HAL_UART_Transmit(&huart2, buffer, n, UART_TIMEOUT);
 		}
 		vTaskDelay(10); //update every minute of simulation time
