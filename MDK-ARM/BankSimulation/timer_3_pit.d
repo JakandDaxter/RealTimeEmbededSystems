@@ -1,0 +1,11 @@
+banksimulation\timer_3_pit.o: ..\Src\Timer_3_PIT.c
+banksimulation\timer_3_pit.o: ../Inc/Timer_3_PIT.h
+banksimulation\timer_3_pit.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h
+banksimulation\timer_3_pit.o: ../Drivers/CMSIS/Include/core_cm4.h
+banksimulation\timer_3_pit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+banksimulation\timer_3_pit.o: ../Drivers/CMSIS/Include/core_cmInstr.h
+banksimulation\timer_3_pit.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+banksimulation\timer_3_pit.o: ../Drivers/CMSIS/Include/core_cmFunc.h
+banksimulation\timer_3_pit.o: ../Drivers/CMSIS/Include/core_cmSimd.h
+banksimulation\timer_3_pit.o: ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h
+banksimulation\timer_3_pit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

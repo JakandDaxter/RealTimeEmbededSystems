@@ -1,0 +1,16 @@
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/tasks.c
+banksimulation\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+banksimulation\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+banksimulation\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+banksimulation\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOSConfig.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+banksimulation\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stack_macros.h

@@ -1,0 +1,14 @@
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+banksimulation\croutine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+banksimulation\croutine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOSConfig.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/croutine.h
+banksimulation\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

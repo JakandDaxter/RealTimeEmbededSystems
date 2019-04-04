@@ -1,0 +1,12 @@
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+banksimulation\port.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+banksimulation\port.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOSConfig.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+banksimulation\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
