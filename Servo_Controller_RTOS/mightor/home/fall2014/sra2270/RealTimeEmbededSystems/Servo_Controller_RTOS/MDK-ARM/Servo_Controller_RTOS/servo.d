@@ -1,0 +1,13 @@
+servo_controller_rtos\servo.o: servo.c
+servo_controller_rtos\servo.o: ../../../../../../../Inc/Servo.h
+servo_controller_rtos\servo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+servo_controller_rtos\servo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+servo_controller_rtos\servo.o: ../../../../../../../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h
+servo_controller_rtos\servo.o: ../../../../../../../Drivers/CMSIS/Include/core_cm4.h
+servo_controller_rtos\servo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+servo_controller_rtos\servo.o: ../../../../../../../Drivers/CMSIS/Include/core_cmInstr.h
+servo_controller_rtos\servo.o: ../../../../../../../Drivers/CMSIS/Include/cmsis_armcc.h
+servo_controller_rtos\servo.o: ../../../../../../../Drivers/CMSIS/Include/core_cmFunc.h
+servo_controller_rtos\servo.o: ../../../../../../../Drivers/CMSIS/Include/core_cmSimd.h
+servo_controller_rtos\servo.o: ../../../../../../../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h
+servo_controller_rtos\servo.o: ../../../../../../../Inc/States.h
