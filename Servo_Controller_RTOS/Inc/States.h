@@ -14,17 +14,15 @@ enum status
 	status_running,
 	status_paused,
 	status_command_error,
-	status_nested_error 
+	status_nested_error
 } ;
 
 // This is a good way to define the state of a servo motor.
 // This should be in a header (.h) file.
 enum servo_states
 {
-	state_at_position,		// use a separate integer to record the current position (0 through 5) for each servo.
 	state_idle,
-	state_moving,
-	state_recipe_ended
+	state_moving
 } ;
 
 #endif
