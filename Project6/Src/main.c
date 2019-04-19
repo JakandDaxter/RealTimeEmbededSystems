@@ -59,6 +59,8 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+#include "stdio.h"
+#include "string.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -82,6 +84,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -89,6 +92,15 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
+void MX_GPIO_Init(void);
+void MX_USART2_UART_Init(void);
+void MX_RNG_Init(void);
+void MX_TIM1_Init(void);
+void MX_SAI1_Init(void);
+void MX_QUADSPI_Init(void);
+void MX_I2C1_Init(void);
+void MX_SPI2_Init(void);
+void StartDefaultTask(void const * argument);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -135,6 +147,10 @@ int main(void)
   MX_RNG_Init();
   /* USER CODE BEGIN 2 */
 
+  //have no made header files yet since they never work for me
+    //print_task_init();
+    //gyro_task_init();
+		
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
