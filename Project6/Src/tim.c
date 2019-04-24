@@ -66,9 +66,9 @@ void MX_TIM1_Init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 8000;
+  htim1.Init.Prescaler = 80;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 200;
+  htim1.Init.Period = 20000;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -157,17 +157,17 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 
   /* USER CODE END TIM1_MspPostInit 0 */
   
-    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
     /**TIM1 GPIO Configuration    
-    PA10     ------> TIM1_CH3
-    PA11     ------> TIM1_CH4 
+    PE13     ------> TIM1_CH3
+    PE14     ------> TIM1_CH4 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
+    GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /* USER CODE BEGIN TIM1_MspPostInit 1 */
 

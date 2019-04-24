@@ -110,6 +110,8 @@ void Error_Handler(void);
 #define JOY_RIGHT_GPIO_Port GPIOA
 #define JOY_UP_Pin GPIO_PIN_3
 #define JOY_UP_GPIO_Port GPIOA
+#define JOY_CENTER_Pin GPIO_PIN_0
+#define JOY_CENTER_GPIO_Port GPIOA
 #define MFX_WAKEUP_Pin GPIO_PIN_4
 #define MFX_WAKEUP_GPIO_Port GPIOA
 #define JOY_DOWN_Pin GPIO_PIN_5

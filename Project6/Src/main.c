@@ -146,11 +146,15 @@ int main(void)
   MX_TIM1_Init();
   MX_RNG_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start(&htim1); 
+  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_4);
   //have no made header files yet since they never work for me
     //print_task_init();
-    //gyro_task_init();
-		
+    
+  __HAL_RCC_LSECSS_EXTI_ENABLE_RISING_EDGE();
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0x0F, 0x00);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -246,7 +250,10 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  HAL_GPIO_TogglePin(LD_G_GPIO_Port, LD_G_Pin);
+}
 /* USER CODE END 4 */
 
 /**
