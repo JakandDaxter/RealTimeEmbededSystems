@@ -49,7 +49,9 @@ gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/R
 gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+gyro_chase\stm32l4xx_it.o: ../Inc/timers.h
+gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+gyro_chase\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h

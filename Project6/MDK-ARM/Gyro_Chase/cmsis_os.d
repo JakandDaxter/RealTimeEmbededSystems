@@ -12,8 +12,10 @@ gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/
 gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+gyro_chase\cmsis_os.o: ../Inc/timers.h
+gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+gyro_chase\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 gyro_chase\cmsis_os.o: ../Drivers/CMSIS/Include/cmsis_armcc.h

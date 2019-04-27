@@ -12,4 +12,5 @@ gyro_chase\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrap
 gyro_chase\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 gyro_chase\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 gyro_chase\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
-gyro_chase\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+gyro_chase\timers.o: ../Inc/timers.h
+gyro_chase\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

@@ -48,10 +48,12 @@ gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_
 gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+gyro_chase\main.o: ../Inc/timers.h
+gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+gyro_chase\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 gyro_chase\main.o: ../Inc/i2c.h
 gyro_chase\main.o: ../Inc/quadspi.h
 gyro_chase\main.o: ../Inc/rng.h

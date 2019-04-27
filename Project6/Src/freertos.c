@@ -82,10 +82,13 @@
 /* USER CODE BEGIN Variables */
 extern TIM_HandleTypeDef htim1;
 extern UART_HandleTypeDef huart2;
+extern HAL_StatusTypeDef status;
 uint32_t discCCR = 500;
 uint32_t contCCR = 500; 
 uint16_t discreteDelay = 5000;
-
+volatile uint8_t hits = 0, misses = 0;
+volatile float min_Threshold = 0.95;
+volatile float max_Threshold = 1.05;
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 
@@ -93,6 +96,7 @@ osThreadId defaultTaskHandle;
 /* USER CODE BEGIN FunctionPrototypes */
 void vDiscreteServo(void *pvParameters);
 void vContinousServo(void *pvParameters);
+void vLevel(void *pvParameters);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -132,6 +136,7 @@ void MX_FREERTOS_Init(void) {
   BSP_GYRO_Init();
   xTaskCreate( vContinousServo, "Servo 1", 100, NULL, 1, NULL );
   xTaskCreate( vDiscreteServo, "Servo 2", 100, NULL, 1, NULL );
+  xTaskCreate( vLevel, "Level", 100, NULL, 2, NULL );
   /* USER CODE END RTOS_QUEUES */
 }
 
@@ -159,76 +164,133 @@ void StartDefaultTask(void const * argument)
 
 void vContinousServo(void *pvParameters)
 {
-	int new_position = 0;
-	float gyro_velocity[3] = {0};       // angular velocity
-	int32_t gyro_angle[3] = {0, 0, 0};	// angle
+    int new_position = 0;
+    float gyro_velocity[3] = {0};       // angular velocity
+    int32_t gyro_angle[3] = {0, 0, 0};	// angle
   int offset = 0;
-	for(;;)
-	{
-		BSP_GYRO_GetXYZ(gyro_velocity);   // get raw values from gyro device
-		// integrate angular velocity to get angle
-		for(int ii=0; ii<3; ii++) 
-		{
-			gyro_angle[ii] += (int32_t)(gyro_velocity[ii] / GYRO_THRESHOLD_DETECTION);
-		}
-		new_position = -1 * gyro_angle[2];
-		if(new_position < 0)
-		{
-			new_position = 0;
-		}
-		else if(new_position > 1500)
-		{
-			new_position = 1500;
-		}
+    for(;;)
+    {
+        BSP_GYRO_GetXYZ(gyro_velocity);   // get raw values from gyro device
+        // integrate angular velocity to get angle
+        for(int ii=0; ii<3; ii++) 
+        {
+            gyro_angle[ii] += (int32_t)(gyro_velocity[ii] / GYRO_THRESHOLD_DETECTION);
+        }
+        new_position = -1 * gyro_angle[2];
+        if(new_position < 0)
+        {
+            new_position = 0;
+        }
+        else if(new_position > 1500)
+        {
+            new_position = 1500;
+        }
     contCCR = 500 + new_position;
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, contCCR);
-		vTaskDelay(100);
-	}
-}	
+         __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, contCCR);
+        vTaskDelay(100);
+    }
+}   
 
-
+void vLevel(void *pvParameters)
+{
+    int new_position = 0;
+     uint8_t p;
+    p = (RNG->DR);
+    char choice[1];
+    float min_Threshold = 0.95;
+    float max_Threshold = 1.05;
+    TIM1 ->CCR4 = 500;
+    char cBuffer[128];
+    int level;
+    int Programgo = 0;
+    int Q = sprintf(cBuffer, "Welcome To Gyro Chase \n\n\r  Pick  level Of Diffulty \n\n\rEasy 1\n\n\rNormal 2\n\n\rExpert 3\n\n\r");
+    HAL_UART_Transmit(&huart2 ,(uint8_t*)cBuffer , Q, 1000);
+           new_position = p%6;
+    discCCR = 500 + (new_position * 300);
+            for(;;)
+            {
+                
+                    
+    HAL_UART_Receive(&huart2, (uint8_t*)choice, 1 , 1000);
+    
+                
+                if( choice[0] == '1'){
+                    
+                min_Threshold = 0.94;
+                max_Threshold = 1.06;
+                     Programgo = 1;
+                    
+                }
+                 if(choice[0] == '2'){
+                     
+                min_Threshold = 0.96;
+                max_Threshold = 1.04;
+                      Programgo = 1;
+                }
+                 
+                  if(choice[0] == '3'){
+                      
+                min_Threshold = 0.98;
+                max_Threshold = 1.02;
+                      Programgo = 1;
+                      
+                }
+            
+            
+                if(Programgo == 1)
+                {
+                
+                vTaskDelay(100000000);
+                
+                }
+                
+           
+            }
+    
+}  
 void vDiscreteServo(void *pvParameters)
 {
-	int new_position = 0;
-	int delay_offset = 0;
-  char cBuffer[128];
-	uint8_t p, hits = 0, misses = 0;
-  int j = 0;
-	for(;;)
-	{
-    while( j < 11)
-    {
-      uint32_t min_angle = discCCR * 0.95;
-      uint32_t max_angle = discCCR * 1.05;
-      if((contCCR > min_angle) && (contCCR < max_angle))
-      {
-        GPIOE->ODR |= 0x1<<8;
-        hits++;
-      }
-      else
-      {
-        GPIOE->ODR &= ~(0x1<<8);
-        misses++;
-      }
-      p = (RNG->DR);
-      while(p%6 == new_position)
-      {
-        p = (RNG->DR);
-      }
-      new_position = p%6;
-      if(delay_offset < 0)
-      {
-        delay_offset = delay_offset*(-1);
-      }
-      discCCR = 500 + (new_position * 300);
-      j++;
-      __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, discCCR);
-      vTaskDelay(discreteDelay);
+    int new_position = 0;
+    int delay_offset = 0;
+    char cBuffer[128];
+    uint8_t p;
+    int j = 0;
+            for(;;)
+            {
+            
+            while( j < 11)
+            {
+              uint32_t min_angle = discCCR * min_Threshold;
+              uint32_t max_angle = discCCR * max_Threshold;
+              if((contCCR > min_angle) && (contCCR < max_angle))
+              {
+                GPIOE->ODR |= 0x1<<8;
+                hits++;
+              }
+              else
+              {
+                GPIOE->ODR &= ~(0x1<<8);
+                misses++;
+              }
+              p = (RNG->DR);
+              while(p%6 == new_position)
+              {
+                p = (RNG->DR);
+              }
+              new_position = p%6;
+              if(delay_offset < 0)
+              {
+                delay_offset = delay_offset*(-1);
+              }
+              discCCR = 500 + (new_position * 300);
+              j++;
+              __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, discCCR);
+              vTaskDelay(discreteDelay);
+            }
+            int n = sprintf(cBuffer, "GAME OVER   HITS = %d   MISSES = %d\r", hits - 1, misses);
+            HAL_UART_Transmit(&huart2 ,(uint8_t*)cBuffer , n, 1000);
+            vTaskDelay(100);  
     }
-    int n = sprintf(cBuffer, "GAME OVER   HITS = %d   MISSES = %d\r", hits - 1, misses);
-    HAL_UART_Transmit(&huart2 ,(uint8_t*)cBuffer , n, 1000);
-    vTaskDelay(100);
-	}
 }
 /* USER CODE END Application */
 

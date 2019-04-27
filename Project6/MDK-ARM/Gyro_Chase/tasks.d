@@ -12,5 +12,6 @@ gyro_chase\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM
 gyro_chase\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 gyro_chase\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 gyro_chase\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-gyro_chase\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+gyro_chase\tasks.o: ../Inc/timers.h
+gyro_chase\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 gyro_chase\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stack_macros.h

@@ -11,13 +11,6 @@ SemaphoreHandle_t  transmit_mutex;  // protects UART transmitter resource
 
  //
  // * prints the string, blocks if UART busy, thus safe from multiple threads
-
-void vPrintString(char *message) {
-  xSemaphoreTake(transmit_mutex, ~0);         // Wait forever until the USART is free, then take mutex
-  HAL_UART_Transmit_IT(&huart2, (uint8_t *)message, strlen(message));
-  xSemaphoreGive(transmit_mutex);             // Give up mutex after printing
-}
-
  //
  // * initializes everything needed for printing
  // * starts newline_task

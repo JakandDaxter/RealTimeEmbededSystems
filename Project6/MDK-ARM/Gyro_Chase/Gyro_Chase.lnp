@@ -13,6 +13,9 @@
 "gyro_chase\stm32l4xx_it.o"
 "gyro_chase\stm32l4xx_hal_msp.o"
 "gyro_chase\stm32l4xx_hal_timebase_tim.o"
+"gyro_chase\gyro.o"
+"gyro_chase\basic_io.o"
+"gyro_chase\print.o"
 "gyro_chase\stm32l4xx_hal_i2c.o"
 "gyro_chase\stm32l4xx_hal_i2c_ex.o"
 "gyro_chase\stm32l4xx_hal_qspi.o"
@@ -48,6 +51,9 @@
 "gyro_chase\cmsis_os.o"
 "gyro_chase\heap_4.o"
 "gyro_chase\port.o"
+"gyro_chase\stm32l476g_discovery.o"
+"gyro_chase\stm32l476g_discovery_gyroscope.o"
+"gyro_chase\l3gd20.o"
 --library_type=microlib --strict --scatter "Gyro_Chase\Gyro_Chase.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
